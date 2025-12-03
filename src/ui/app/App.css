@@ -1,0 +1,278 @@
+/* ===== БАЗА ===== */
+
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+    background: radial-gradient(circle at top, #e0edff 0, #f9fafb 45%, #f3f4f6 100%);
+    color: #111827;
+}
+
+/* ===== ОБОЛОЧКА ПРИЛОЖЕНИЯ ===== */
+/* Делает «мобильный» контейнер по центру, но:
+   - на телефоне = 100% ширины (414px у iPhone 11),
+   - на десктопе не больше 480–520px, чтобы не было «узкой палочки» */
+
+.app-shell {
+    min-height: 100vh;
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Чуть расширяем на очень широких экранах, но не больше 828px */
+
+@media (min-width: 992px) {
+    .app-shell {
+        max-width: 828px;
+    }
+}
+
+/* Внутренние контейнеры Bootstrap — убираем лишние боковые отступы на мобиле */
+
+.app-shell .container,
+.app-shell .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* ===== КАРТОЧКИ / ПЛАВНЫЕ ПЕРЕХОДЫ МЕЖДУ СТРАНИЦАМИ ===== */
+
+.card.page-card {
+    border-radius: 18px;
+    border: 1px solid #e5e7eb;
+    background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+    animation: page-fade-in 0.25s ease-out;
+}
+
+@keyframes page-fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-body {
+    position: relative;
+}
+
+/* ===== ТЕКСТ И ЗАГОЛОВКИ ===== */
+
+.card-title {
+    color: #111827;
+}
+
+h2,
+h3,
+h4,
+h5 {
+    color: #111827;
+}
+
+/* ===== LISTGROUP / СТРОКИ ВОПРОСОВ ===== */
+
+.list-group-item {
+    background: #ffffff;
+    border-color: #e5e7eb;
+    color: #111827;
+    transition:
+            background 0.18s ease,
+            transform 0.08s ease,
+            border-color 0.18s ease,
+            box-shadow 0.18s ease;
+}
+
+/* ключевое для пальца: фиксированная высота строки и крупный клик */
+.list-group-item.quiz-item {
+    cursor: pointer;
+    min-height: 52px; /* > 44px, как рекомендует Apple/WCAG */
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.list-group-item.quiz-item:hover {
+    background: #eef2ff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+}
+
+.list-group-item.quiz-item:active,
+.list-group-item.quiz-item:focus {
+    background: #eef2ff;
+    box-shadow: none;
+    outline: none;
+}
+
+/* успех / ошибка */
+
+.list-group-item-success {
+    background: #dcfce7 !important;
+    border-color: #bbf7d0 !important;
+    color: #14532d !important;
+}
+
+.list-group-item-danger {
+    background: #fee2e2 !important;
+    border-color: #fecaca !important;
+    color: #7f1d1d !important;
+}
+
+/* центральное слово – белое поле, фикс высота, по центру */
+
+.prompt-word {
+    border-radius: 999px;
+    text-transform: none;
+    color: #14532d;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* плавное появление текста в строках при старте */
+
+.quiz-text-hidden {
+    opacity: 0;
+}
+
+.quiz-text-visible {
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
+/* ===== ВСПЛЫВАЮЩЕЕ +1 ===== */
+
+.score-burst {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #16a34a;
+    text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+    pointer-events: none;
+    animation: score-burst 0.6s ease-out forwards;
+    z-index: 5;
+}
+
+@keyframes score-burst {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -20%) scale(0.6);
+    }
+    35% {
+        opacity: 1;
+        transform: translate(-50%, -40%) scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -60%) scale(1);
+    }
+}
+
+/* ===== КОМБО ===== */
+
+.combo-burst {
+    position: absolute;
+    top: 24%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #f97316;
+    text-shadow: 0 0 10px rgba(248, 113, 113, 0.7);
+    pointer-events: none;
+    animation: combo-burst 0.7s ease-out forwards;
+    z-index: 6;
+}
+
+@keyframes combo-burst {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -10%) scale(0.7);
+    }
+    40% {
+        opacity: 1;
+        transform: translate(-50%, -25%) scale(1.15);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -40%) scale(1);
+    }
+}
+
+/* ===== ТАЙМЕР ===== */
+
+.quiz-timer span {
+    color: #b45309;
+}
+
+/* ===== КНОПКИ ===== */
+
+/* делаем все кнопки удобными для пальца */
+
+.btn {
+    min-height: 44px; /* минимум под палец */
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+    font-size: 1rem;
+}
+
+.btn-sm {
+    min-height: 40px;
+    padding-inline: 0.9rem;
+    padding-block: 0.45rem;
+    font-size: 0.95rem;
+}
+
+.btn-primary,
+.btn-outline-primary {
+    border-radius: 999px;
+}
+
+.btn-primary {
+    background: #2563eb;
+    border-color: #1d4ed8;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    border-color: #1e40af;
+}
+
+.btn-outline-primary {
+    border-color: #2563eb;
+    color: #1d4ed8;
+}
+
+.btn-outline-primary:hover {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.btn-outline-secondary {
+    border-radius: 999px;
+    border-color: #9ca3af;
+    color: #374151;
+}
+
+.btn-outline-secondary:hover {
+    background: #e5e7eb;
+    color: #111827;
+}

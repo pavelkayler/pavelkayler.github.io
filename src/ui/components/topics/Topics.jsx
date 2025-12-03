@@ -1,0 +1,70 @@
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardTitle,
+  CardText,
+  Button,
+} from "react-bootstrap";
+
+import { UserContext, QuizContext } from "../../../core/context/Context.jsx";
+
+const Topics = () => {
+  const { isAuth } = useContext(UserContext);
+  const { initQuiz } = useContext(QuizContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/");
+    }
+  }, [isAuth, navigate]);
+
+  const handleSelect = () => {
+    initQuiz();
+    navigate("/quiz");
+  };
+
+  return (
+    <Container className="py-5">
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <Card className="shadow-sm p-4 page-card">
+            <CardBody>
+              <CardTitle className="fs-4 mb-3 text-center">
+                <i className="bi bi-grid-3x3-gap-fill me-2 text-primary" />
+                Выбор темы
+              </CardTitle>
+
+              <Card className="mb-3 border-primary">
+                <CardBody>
+                  <CardTitle className="fs-5 mb-2">
+                    <i className="bi bi-book-half me-2 text-primary" />
+                    Английский язык. Слова
+                  </CardTitle>
+                  <CardText className="mb-3 text-muted">
+                    Сопоставляйте английские слова с их русскими
+                    переводами в формате быстрой тренировки.
+                  </CardText>
+                  <Button variant="primary" type="button" onClick={handleSelect}>
+                    Выбрать тему
+                  </Button>
+                </CardBody>
+              </Card>
+
+              <CardText className="text-muted small mb-0">
+                В будущем здесь появятся и другие темы.
+              </CardText>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export { Topics };
