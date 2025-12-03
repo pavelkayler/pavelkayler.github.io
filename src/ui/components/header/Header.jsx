@@ -14,23 +14,31 @@ const Header = () => {
 
   return (
     <>
-      <Navbar bg="white" variant="light" expand="md" className="mb-2 shadow-sm">
-        <Container>
-          <Navbar.Brand as={Link} to="/topics" className="fw-bold">
-            <i className="bi bi-controller me-2 text-primary" />
-            Викторина
+      <Navbar
+        bg="white"
+        variant="light"
+        expand="md"
+        className="mb-2 shadow-sm app-navbar"
+      >
+        <Container fluid>
+          <Navbar.Brand as={Link} to="/topics" className="brand-icon">
+            <i className="bi bi-controller text-primary" aria-hidden />
+            <span className="visually-hidden">На список тем</span>
           </Navbar.Brand>
 
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/topics">
-              <i className="bi bi-grid-3x3-gap-fill me-1" />
-              Темы
-            </Nav.Link>
-            <Nav.Link as={Link} to="/history">
-              <i className="bi bi-clock-history me-1" />
-              История
-            </Nav.Link>
-          </Nav>
+          <Navbar.Toggle aria-controls="main-nav" />
+          <Navbar.Collapse id="main-nav">
+            <Nav className="ms-auto gap-2">
+              <Nav.Link as={Link} to="/topics" className="fw-semibold">
+                <i className="bi bi-grid-3x3-gap-fill me-1" />
+                Темы
+              </Nav.Link>
+              <Nav.Link as={Link} to="/history" className="fw-semibold">
+                <i className="bi bi-clock-history me-1" />
+                История
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
 

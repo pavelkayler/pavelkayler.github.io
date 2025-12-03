@@ -1,39 +1,39 @@
-import { useContext } from "react";
-import { Button } from "react-bootstrap";
+import { useContext, useMemo } from "react";
 
 import { QuizContext } from "../../../../core/context/Context.jsx";
 
 const QuizFooter = ({ totalWords }) => {
-  const { score, errorsCount, resetCounters } = useContext(QuizContext);
+  const { score, errorsCount } = useContext(QuizContext);
+
+  const answered = useMemo(
+    () => score + errorsCount,
+    [errorsCount, score],
+  );
+  const remaining = Math.max(totalWords - answered, 0);
 
   return (
-    <div className="quiz-footer d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mt-4">
-      <div>
-        <span className="me-3">
-          Правильных:{" "}
-          <span className="fw-semibold text-success">
-            {score}
-          </span>
-        </span>
-        <span>
-          Неправильных:{" "}
-          <span className="fw-semibold text-danger">
-            {errorsCount}
-          </span>
-        </span>
-      </div>
-      <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2 gap-sm-3">
-        <span className="text-muted">
-          Всего слов в сессии: {totalWords}
-        </span>
-        <Button
-          variant="outline-secondary"
-          size="sm"
-          type="button"
-          onClick={resetCounters}
-        >
-          Сбросить счётчики
-        </Button>
+    <div className="quiz-footer mt-4">
+      <div className="footer-grid">
+        <div className="footer-card">
+          <div className="footer-title">Всего слов</div>
+          <div className="footer-value">{totalWords}</div>
+        </div>
+
+        <div className="footer-card">
+          <div className="footer-title">Отвечено</div>
+          <div className="footer-value text-primary">{answered}</div>
+          <div className="footer-sub">Осталось: {remaining}</div>
+        </div>
+
+        <div className="footer-card">
+          <div className="footer-title">Верно</div>
+          <div className="footer-value text-success">{score}</div>
+        </div>
+
+        <div className="footer-card">
+          <div className="footer-title">Ошибки</div>
+          <div className="footer-value text-danger">{errorsCount}</div>
+        </div>
       </div>
     </div>
   );

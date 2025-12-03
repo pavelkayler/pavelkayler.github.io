@@ -12,6 +12,9 @@ body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
     background: radial-gradient(circle at 20% 20%, #c7d2fe 0, #f3f4ff 32%, #eef2ff 46%, #f9fafb 100%);
+    background-repeat: no-repeat;
+    background-size: 160% 160%;
+    background-attachment: fixed;
     color: #111827;
 }
 
@@ -22,27 +25,67 @@ body {
 
 .app-shell {
     min-height: 100vh;
-    max-width: 520px;
     width: 100%;
-    margin: 0 auto;
+    margin: 0;
     display: flex;
     flex-direction: column;
 }
 
-/* Чуть расширяем на очень широких экранах, но не больше 828px */
-
-@media (min-width: 992px) {
-    .app-shell {
-        max-width: 828px;
-    }
-}
-
-/* Внутренние контейнеры Bootstrap — убираем лишние боковые отступы на мобиле */
+/* Внутренние контейнеры Bootstrap — плавные отступы под любое устройство */
 
 .app-shell .container,
 .app-shell .container-fluid {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: clamp(1rem, 1.5vw, 2rem);
+    padding-right: clamp(1rem, 1.5vw, 2rem);
+}
+
+.quiz-container {
+    max-width: 1400px;
+}
+
+/* ===== НАВИГАЦИЯ И ПОЛЬЗОВАТЕЛЬ ===== */
+
+.app-navbar {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.brand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #e0e7ff, #eef2ff);
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.12);
+}
+
+.user-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    backdrop-filter: blur(6px);
+}
+
+.user-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 0.9rem;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.08);
+    color: #1f2937;
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    font-weight: 600;
 }
 
 /* ===== КАРТОЧКИ / ПЛАВНЫЕ ПЕРЕХОДЫ МЕЖДУ СТРАНИЦАМИ ===== */
@@ -144,12 +187,14 @@ h5 {
 }
 
 .prompt-card {
+    position: relative;
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(124, 58, 237, 0.08));
     border: 1px solid rgba(37, 99, 235, 0.16);
     border-radius: 18px;
-    padding: 1.25rem 1.5rem;
+    padding: 1.25rem 1.5rem 1.6rem;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 16px 30px rgba(79, 70, 229, 0.08);
     text-align: center;
+    overflow: hidden;
 }
 
 .prompt-subtitle {
@@ -178,11 +223,18 @@ h5 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
     margin-top: 0.75rem;
 }
 
-.prompt-progress {
+.prompt-progress .progress {
+    width: min(420px, 100%);
+    height: 12px;
+    background-color: rgba(15, 23, 42, 0.08);
+}
+
+.prompt-progress-text {
+    margin-top: 0.35rem;
     font-size: 0.95rem;
 }
 
@@ -284,8 +336,8 @@ h5 {
 
 .combo-burst {
     position: absolute;
-    top: 14px;
     right: 16px;
+    top: 12px;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -325,12 +377,48 @@ h5 {
 
 .quiz-columns {
     margin-top: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+}
+
+.quiz-columns > .col {
+    min-width: 260px;
 }
 
 .quiz-list {
     border-radius: 16px;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.9);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+}
+
+.footer-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 0.9rem 1rem;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+.footer-title {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin-bottom: 0.35rem;
+}
+
+.footer-value {
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.footer-sub {
+    font-size: 0.95rem;
+    color: #6b7280;
 }
 
 .column-title {
