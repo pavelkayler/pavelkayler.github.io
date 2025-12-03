@@ -24,6 +24,31 @@ const questions = [
     left: "sun",
     right: "солнце",
   },
+  {
+    id: 6,
+    left: "river",
+    right: "река",
+  },
+  {
+    id: 7,
+    left: "mountain",
+    right: "гора",
+  },
+  {
+    id: 8,
+    left: "forest",
+    right: "лес",
+  },
+  {
+    id: 9,
+    left: "friend",
+    right: "друг",
+  },
+  {
+    id: 10,
+    left: "dream",
+    right: "мечта",
+  },
 ];
 
 export { questions };

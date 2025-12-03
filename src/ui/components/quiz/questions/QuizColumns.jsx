@@ -98,8 +98,8 @@ const QuizColumns = ({ hasStarted }) => {
   };
 
   return (
-    <Row className="quiz-columns gy-3">
-      <Col md={6}>
+    <Row className="quiz-columns g-3 row-cols-2 flex-nowrap flex-md-wrap">
+      <Col className="d-flex flex-column">
         <div className="column-title text-end">
           <span className="pill-label">EN</span>
           <h5 className="mb-0 text-accent">Английские слова</h5>
@@ -108,7 +108,7 @@ const QuizColumns = ({ hasStarted }) => {
           {leftItems.map((item) => renderItem(item, "left"))}
         </ListGroup>
       </Col>
-      <Col md={6}>
+      <Col className="d-flex flex-column">
         <div className="column-title">
           <span className="pill-label">RU</span>
           <h5 className="mb-0 text-accent">Русские слова</h5>

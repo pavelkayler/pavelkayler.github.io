@@ -14,22 +14,43 @@ const UserHeader = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/");
+    navigate("/", { replace: true });
   };
 
   return (
-    <Container fluid className="border-bottom py-2 bg-light mb-3">
-      <Row className="align-items-center gx-3">
-        <Col xs="auto">Пользователь: {userName}</Col>
-        <Col xs="auto">Входов: {userStats.loginCount}</Col>
-        <Col xs="auto">Выходов: {userStats.logoutCount}</Col>
-        <Col xs="auto">
-          <Button variant="outline-secondary" size="sm" type="button" onClick={handleLogout}>
-            Выйти
-          </Button>
-        </Col>
-      </Row>
-    </Container>
+    <div className="user-header border-bottom bg-light mb-3">
+      <Container fluid className="py-3">
+        <Row className="align-items-center gy-3 justify-content-between flex-column flex-md-row">
+          <Col className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3">
+            <div className="user-chip">
+              <i className="bi bi-person-circle me-2" />
+              <span className="fw-semibold">{userName}</span>
+            </div>
+            <div className="d-flex flex-wrap gap-2">
+              <span className="stat-chip">
+                <i className="bi bi-box-arrow-in-right me-1 text-success" />
+                Входов: {userStats.loginCount}
+              </span>
+              <span className="stat-chip">
+                <i className="bi bi-box-arrow-right me-1 text-secondary" />
+                Выходов: {userStats.logoutCount}
+              </span>
+            </div>
+          </Col>
+          <Col xs="auto">
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              type="button"
+              onClick={handleLogout}
+            >
+              <i className="bi bi-door-closed me-2" />
+              Выйти
+            </Button>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

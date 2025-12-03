@@ -14,7 +14,6 @@ import { QuizHeader } from "./header/QuizHeader.jsx";
 import { QuizColumns } from "./questions/QuizColumns.jsx";
 import { QuizFooter } from "./footer/QuizFooter.jsx";
 import { ScoreBurst } from "./effects/ScoreBurst.jsx";
-import { ComboBurst } from "./effects/ComboBurst.jsx";
 
 const Quiz = () => {
   const {
@@ -124,15 +123,15 @@ const Quiz = () => {
   }, [score]);
 
   return (
-    <Container className="py-4">
+    <Container fluid className="py-4 px-3 px-md-4 quiz-container">
       <Row className="justify-content-center">
-        <Col md={10}>
+        <Col xxl={10}>
           <Card className="shadow-sm p-4 page-card quiz-card">
             <CardBody className="quiz-body">
               <ScoreBurst visible={showBurst} />
-              <ComboBurst streak={streak} />
 
               <QuizHeader
+                streak={streak}
                 hasStarted={hasStarted}
                 countdown={countdown}
                 onStart={handleStart}

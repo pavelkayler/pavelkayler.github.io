@@ -3,6 +3,7 @@ import { useContext, useMemo } from "react";
 import { Button } from "react-bootstrap";
 
 import { QuizContext } from "../../../../core/context/Context.jsx";
+import { ComboBurst } from "../effects/ComboBurst.jsx";
 
 const formatTime = (seconds) => {
   const safeSeconds = Math.max(0, seconds);
@@ -15,8 +16,9 @@ const formatTime = (seconds) => {
   return `${minutesText}:${secondsText}`;
 };
 
-const QuizHeader = ({ hasStarted, countdown, onStart }) => {
+const QuizHeader = ({ streak, hasStarted, countdown, onStart }) => {
   const {
+    questions,
     currentPrompt,
     timeLeft,
     isRunning,
@@ -24,13 +26,12 @@ const QuizHeader = ({ hasStarted, countdown, onStart }) => {
     finishQuiz,
     score,
     errorsCount,
-    streak,
   } = useContext(QuizContext);
 
-  const timerText = useMemo(
-    () => formatTime(timeLeft),
-    [timeLeft],
-  );
+  const timerText = useMemo(() => formatTime(timeLeft), [timeLeft]);
+  const totalWords = useMemo(() => questions.length * 2, [questions]);
+  const totalAnswered = score + errorsCount;
+  const remaining = Math.max(totalWords - totalAnswered, 0);
 
   // ВАЖНО: без "—" по умолчанию
   let centerText = "";
@@ -56,7 +57,6 @@ const QuizHeader = ({ hasStarted, countdown, onStart }) => {
   const primaryDisabled =
     !showStartButton && (!isRunning && isQuizFinished);
 
-  const totalAnswered = score + errorsCount;
   const comboText = streak >= 3 ? `Комбо x${streak}` : "Комбо готовится";
 
   return (
@@ -69,9 +69,15 @@ const QuizHeader = ({ hasStarted, countdown, onStart }) => {
         </div>
 
         <div className="meta-chip">
-          <i className="bi bi-stars me-2 text-primary" />
-          <span className="text-muted">Очки</span>
+          <i className="bi bi-check-circle-fill me-2 text-success" />
+          <span className="text-muted">Верно</span>
           <strong className="ms-2">{score}</strong>
+        </div>
+
+        <div className="meta-chip">
+          <i className="bi bi-x-circle-fill me-2 text-danger" />
+          <span className="text-muted">Ошибки</span>
+          <strong className="ms-2">{errorsCount}</strong>
         </div>
 
         <div className="meta-chip">
@@ -82,6 +88,8 @@ const QuizHeader = ({ hasStarted, countdown, onStart }) => {
       </div>
 
       <div className="prompt-card">
+        <ComboBurst streak={streak} />
+
         <p className="prompt-subtitle">
           Сопоставьте английские и русские слова
         </p>
@@ -99,8 +107,18 @@ const QuizHeader = ({ hasStarted, countdown, onStart }) => {
           >
             {primaryLabel}
           </Button>
-          <div className="prompt-progress text-muted">
-            Отвечено: {totalAnswered}
+          <div className="prompt-progress">
+            <div className="progress" role="progressbar" aria-valuenow={totalAnswered} aria-valuemin="0" aria-valuemax={totalWords}>
+              <div
+                className="progress-bar bg-primary"
+                style={{ width: `${(totalAnswered / totalWords) * 100}%` }}
+              >
+                {totalAnswered} / {totalWords}
+              </div>
+            </div>
+            <div className="prompt-progress-text text-muted">
+              Осталось слов: {remaining}
+            </div>
           </div>
         </div>
       </div>
