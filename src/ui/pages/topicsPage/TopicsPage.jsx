@@ -1,10 +1,11 @@
 import { Topics } from "../../components/topics/Topics.jsx";
+import { AppLayout } from "../../layouts/AppLayout.jsx";
 
 const TopicsPage = () => {
   return (
-    <div className="app-shell">
+    <AppLayout>
       <Topics />
-    </div>
+    </AppLayout>
   );
 };
 

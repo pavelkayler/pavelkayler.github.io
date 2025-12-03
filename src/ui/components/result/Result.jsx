@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Container,
@@ -13,21 +13,15 @@ import {
   ListGroupItem,
 } from "react-bootstrap";
 
-import { UserContext, QuizContext } from "../../../core/context/Context.jsx";
+import { QuizContext } from "../../../core/context/Context.jsx";
+import { useAuthGuard } from "../../../core/hooks/useAuthGuard.js";
 
 const Result = () => {
-  const { isAuth } = useContext(UserContext);
-
-  const { questions, score, errorsCount, initQuiz } =
-    useContext(QuizContext);
+  const { questions, score, errorsCount, initQuiz } = useContext(QuizContext);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isAuth) {
-      navigate("/");
-    }
-  }, [isAuth, navigate]);
+  useAuthGuard();
 
   const handleRestart = () => {
     initQuiz();

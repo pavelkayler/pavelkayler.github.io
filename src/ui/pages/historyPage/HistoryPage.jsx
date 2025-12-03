@@ -1,12 +1,11 @@
-import { Header } from "../../components/header/Header.jsx";
 import { History } from "../../components/history/History.jsx";
+import { AppLayout } from "../../layouts/AppLayout.jsx";
 
 const HistoryPage = () => {
   return (
-    <div className="app-shell">
-      <Header />
+    <AppLayout>
       <History />
-    </div>
+    </AppLayout>
   );
 };
 

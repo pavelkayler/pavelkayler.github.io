@@ -1,5 +1,4 @@
-import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import {
   Container,
   Row,
@@ -10,19 +9,13 @@ import {
   Table,
 } from "react-bootstrap";
 
-import { UserContext, HistoryContext } from "../../../core/context/Context.jsx";
+import { HistoryContext } from "../../../core/context/Context.jsx";
+import { useAuthGuard } from "../../../core/hooks/useAuthGuard.js";
 
 const History = () => {
-  const { isAuth } = useContext(UserContext);
   const { quizHistory } = useContext(HistoryContext);
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!isAuth) {
-      navigate("/");
-    }
-  }, [isAuth, navigate]);
+  useAuthGuard();
 
   return (
     <Container className="py-5">

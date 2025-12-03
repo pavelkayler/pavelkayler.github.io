@@ -3,6 +3,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useCallback,
   useState,
 } from "react";
 
@@ -91,6 +92,9 @@ const QuizProvider = ({ children }) => {
 
   const [questions] = useState(baseQuestions);
 
+  const [sessionId, setSessionId] = useState(0);
+  const [completedSessionId, setCompletedSessionId] = useState(null);
+
   const [columns, setColumns] = useState(initialColumns);
   const { leftItems, rightItems } = columns;
 
@@ -112,7 +116,7 @@ const QuizProvider = ({ children }) => {
   const [streak, setStreak] = useState(0); // количество подряд верных ответов
 
   // подготовка квиза (после выбора темы)
-  const initQuiz = () => {
+  const initQuiz = useCallback(() => {
     const newColumns = createColumns(questions);
 
     setColumns(newColumns);
@@ -130,10 +134,12 @@ const QuizProvider = ({ children }) => {
     setIsSelectionLocked(false);
     setFeedback(null);
     setStreak(0);
-  };
+    setSessionId((prev) => prev + 1);
+    setCompletedSessionId(null);
+  }, [questions]);
 
   // старт: первый рандом + включаем таймер
-  const startQuiz = () => {
+  const startQuiz = useCallback(() => {
     if (wasStarted) {
       return;
     }
@@ -145,23 +151,24 @@ const QuizProvider = ({ children }) => {
       const prevPairId = prevPrompt ? prevPrompt.pairId : null;
       return pickRandomPrompt(columns, prevPairId);
     });
-  };
+  }, [columns, wasStarted]);
 
-  const resetCounters = () => {
+  const resetCounters = useCallback(() => {
     setScore(0);
     setErrorsCount(0);
     setStreak(0);
-  };
+  }, []);
 
-  const finishQuiz = () => {
+  const finishQuiz = useCallback(() => {
     if (!wasStarted || isQuizFinished) {
       return;
     }
     setIsQuizFinished(true);
     setIsRunning(false);
-  };
+    setCompletedSessionId(sessionId);
+  }, [isQuizFinished, sessionId, wasStarted]);
 
-  const handleItemClick = (side, itemId) => {
+  const handleItemClick = useCallback((side, itemId) => {
     if (!currentPrompt || !isRunning || isQuizFinished || isSelectionLocked) {
       return;
     }
@@ -206,7 +213,7 @@ const QuizProvider = ({ children }) => {
       setFeedback(null);
       setIsSelectionLocked(false);
     }, 250);
-  };
+  }, [columns, currentPrompt, isQuizFinished, isRunning, isSelectionLocked, leftItems, rightItems]);
 
   // таймер
   useEffect(() => {
@@ -232,8 +239,9 @@ const QuizProvider = ({ children }) => {
     if (timeLeft === 0 && isRunning && !isQuizFinished) {
       setIsQuizFinished(true);
       setIsRunning(false);
+      setCompletedSessionId(sessionId);
     }
-  }, [timeLeft, isRunning, isQuizFinished]);
+  }, [isQuizFinished, isRunning, sessionId, timeLeft]);
 
   // запись попытки в историю (когда квиз завершён, только один раз)
   useEffect(() => {
@@ -270,6 +278,8 @@ const QuizProvider = ({ children }) => {
       questions,
       leftItems,
       rightItems,
+      sessionId,
+      completedSessionId,
       currentPrompt,
       score,
       errorsCount,
@@ -289,6 +299,8 @@ const QuizProvider = ({ children }) => {
       questions,
       leftItems,
       rightItems,
+      sessionId,
+      completedSessionId,
       currentPrompt,
       score,
       errorsCount,
@@ -298,6 +310,11 @@ const QuizProvider = ({ children }) => {
       wasStarted,
       feedback,
       streak,
+      initQuiz,
+      startQuiz,
+      resetCounters,
+      finishQuiz,
+      handleItemClick,
     ],
   );
 
