@@ -5,7 +5,7 @@ const ComboBurst = ({ streak }) => {
 
   return (
     <div key={streak} className="combo-burst">
-      Комбо x{streak}!
+      <i className="bi bi-fire me-2" />Комбо x{streak}!
     </div>
   );
 };

@@ -7,7 +7,7 @@ const QuizFooter = ({ totalWords }) => {
   const { score, errorsCount, resetCounters } = useContext(QuizContext);
 
   return (
-    <div className="d-flex justify-content-between align-items-center mt-4">
+    <div className="quiz-footer d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mt-4">
       <div>
         <span className="me-3">
           Правильных:{" "}
@@ -22,7 +22,7 @@ const QuizFooter = ({ totalWords }) => {
           </span>
         </span>
       </div>
-      <div className="d-flex align-items-center gap-3">
+      <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2 gap-sm-3">
         <span className="text-muted">
           Всего слов в сессии: {totalWords}
         </span>

@@ -1,12 +1,6 @@
 // src/ui/components/quiz/header/QuizHeader.jsx
 import { useContext, useMemo } from "react";
-import {
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Button,
-} from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 import { QuizContext } from "../../../../core/context/Context.jsx";
 
@@ -28,6 +22,9 @@ const QuizHeader = ({ hasStarted, countdown, onStart }) => {
     isRunning,
     isQuizFinished,
     finishQuiz,
+    score,
+    errorsCount,
+    streak,
   } = useContext(QuizContext);
 
   const timerText = useMemo(
@@ -59,41 +56,55 @@ const QuizHeader = ({ hasStarted, countdown, onStart }) => {
   const primaryDisabled =
     !showStartButton && (!isRunning && isQuizFinished);
 
-  return (
-    <>
-      <h2 className="fs-4 mb-3 text-center">
-        Сопоставьте английские и русские слова
-      </h2>
+  const totalAnswered = score + errorsCount;
+  const comboText = streak >= 3 ? `Комбо x${streak}` : "Комбо готовится";
 
-      <Row className="align-items-center mb-4">
-        <Col xs={4} className="d-flex justify-content-start mb-2 mb-md-0">
-          <div className="quiz-timer">
-            Время:{" "}
-            <span className="fw-semibold">
-              {timerText}
-            </span>
-          </div>
-        </Col>
-        <Col xs={4}>
-          <ListGroup>
-            <ListGroupItem className="text-center fw-semibold prompt-word">
-              {centerText}
-            </ListGroupItem>
-          </ListGroup>
-        </Col>
-        <Col xs={4} className="d-flex justify-content-end mt-2 mt-md-0">
+  return (
+    <div className="quiz-header">
+      <div className="quiz-meta-strip">
+        <div className="meta-chip">
+          <i className="bi bi-stopwatch me-2 text-warning" />
+          <span className="text-muted">Время</span>
+          <strong className="ms-2">{timerText}</strong>
+        </div>
+
+        <div className="meta-chip">
+          <i className="bi bi-stars me-2 text-primary" />
+          <span className="text-muted">Очки</span>
+          <strong className="ms-2">{score}</strong>
+        </div>
+
+        <div className="meta-chip">
+          <i className="bi bi-fire me-2 text-danger" />
+          <span className="text-muted">Комбо</span>
+          <strong className="ms-2">{comboText}</strong>
+        </div>
+      </div>
+
+      <div className="prompt-card">
+        <p className="prompt-subtitle">
+          Сопоставьте английские и русские слова
+        </p>
+        <div className="prompt-word">
+          {centerText || "Нажмите \"Начать\""}
+        </div>
+
+        <div className="prompt-actions">
           <Button
             variant={primaryVariant}
-            size="sm"
+            size="lg"
             type="button"
             onClick={handlePrimaryClick}
             disabled={primaryDisabled}
           >
             {primaryLabel}
           </Button>
-        </Col>
-      </Row>
-    </>
+          <div className="prompt-progress text-muted">
+            Отвечено: {totalAnswered}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
