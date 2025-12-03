@@ -98,18 +98,22 @@ const QuizColumns = ({ hasStarted }) => {
   };
 
   return (
-    <Row>
-      <Col md={6} className="mb-4 mb-md-0">
-        <h5 className="mb-3 text-end text-accent">
-          Английские слова
-        </h5>
-        <ListGroup>
+    <Row className="quiz-columns gy-3">
+      <Col md={6}>
+        <div className="column-title text-end">
+          <span className="pill-label">EN</span>
+          <h5 className="mb-0 text-accent">Английские слова</h5>
+        </div>
+        <ListGroup className="shadow-sm quiz-list">
           {leftItems.map((item) => renderItem(item, "left"))}
         </ListGroup>
       </Col>
       <Col md={6}>
-        <h5 className="mb-3 text-accent">Русские слова</h5>
-        <ListGroup>
+        <div className="column-title">
+          <span className="pill-label">RU</span>
+          <h5 className="mb-0 text-accent">Русские слова</h5>
+        </div>
+        <ListGroup className="shadow-sm quiz-list">
           {rightItems.map((item) => renderItem(item, "right"))}
         </ListGroup>
       </Col>

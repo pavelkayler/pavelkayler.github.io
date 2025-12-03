@@ -124,11 +124,11 @@ const Quiz = () => {
   }, [score]);
 
   return (
-    <Container className="py-5">
+    <Container className="py-4">
       <Row className="justify-content-center">
         <Col md={10}>
-          <Card className="shadow-sm p-4 page-card">
-            <CardBody>
+          <Card className="shadow-sm p-4 page-card quiz-card">
+            <CardBody className="quiz-body">
               <ScoreBurst visible={showBurst} />
               <ComboBurst streak={streak} />
 
