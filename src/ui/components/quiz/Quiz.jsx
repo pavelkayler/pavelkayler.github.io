@@ -8,7 +8,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, CardBody } from "react-bootstrap";
 
-import { UserContext, QuizContext } from "../../../core/context/Context.jsx";
+import { QuizContext } from "../../../core/context/Context.jsx";
+import { useAuthGuard } from "../../../core/hooks/useAuthGuard.js";
 import { QuizHeader } from "./header/QuizHeader.jsx";
 import { QuizColumns } from "./questions/QuizColumns.jsx";
 import { QuizFooter } from "./footer/QuizFooter.jsx";
@@ -16,34 +17,28 @@ import { ScoreBurst } from "./effects/ScoreBurst.jsx";
 import { ComboBurst } from "./effects/ComboBurst.jsx";
 
 const Quiz = () => {
-  const { isAuth } = useContext(UserContext);
   const {
     questions,
     score,
     streak,
     isQuizFinished,
+    sessionId,
+    completedSessionId,
     startQuiz,
     finishQuiz,
     wasStarted,
     isRunning,
   } = useContext(QuizContext);
 
-  
+  useAuthGuard();
   const navigate = useNavigate();
-
-  // если не авторизован — на главную
-  useEffect(() => {
-    if (!isAuth) {
-      navigate("/");
-    }
-  }, [isAuth, navigate]);
 
   // при завершении квиза — на результат
   useEffect(() => {
-    if (isQuizFinished) {
+    if (isQuizFinished && completedSessionId === sessionId) {
       navigate("/result");
     }
-  }, [isQuizFinished, navigate]);
+  }, [completedSessionId, isQuizFinished, navigate, sessionId]);
 
   // храним актуальные значения флагов в ref,
   // чтобы корректно завершать тест только при размонтировании компонента

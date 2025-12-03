@@ -1,12 +1,11 @@
-import { Header } from "../../components/header/Header.jsx";
 import { Quiz } from "../../components/quiz/Quiz.jsx";
+import { AppLayout } from "../../layouts/AppLayout.jsx";
 
 const QuizPage = () => {
   return (
-    <div className="app-shell">
-      <Header />
+    <AppLayout>
       <Quiz />
-    </div>
+    </AppLayout>
   );
 };
 

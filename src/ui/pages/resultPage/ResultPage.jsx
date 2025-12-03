@@ -1,14 +1,13 @@
-import { Header } from "../../components/header/Header.jsx";
 import { Result } from "../../components/result/Result.jsx";
 import { Topics } from "../../components/topics/Topics.jsx";
+import { AppLayout } from "../../layouts/AppLayout.jsx";
 
 const ResultPage = () => {
   return (
-    <div className="app-shell">
-      <Header />
+    <AppLayout>
       <Result />
       <Topics />
-    </div>
+    </AppLayout>
   );
 };
 
