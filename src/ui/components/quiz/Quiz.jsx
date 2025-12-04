@@ -96,7 +96,7 @@ const Quiz = () => {
         <Col xs={12}>
           <Card className="shadow-sm p-3 p-md-4 page-card quiz-card">
             <CardBody className="quiz-body">
-              <ScoreBurst visible={showBurst} />
+              <ScoreBurst visible={showBurst && streak < 3} />
               <ComboBurst streak={streak} />
 
               <div className="quiz-stage">
