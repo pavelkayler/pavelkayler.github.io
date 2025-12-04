@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
+import { ListGroupItem } from "react-bootstrap";
 
 import { QuizContext } from "../../../../core/context/Context.jsx";
 
@@ -26,12 +26,12 @@ const QuizColumns = ({ hasStarted }) => {
 
     if (isFeedbackItem) {
       if (feedback.result === "correct") {
-        return <i className="bi bi-check-circle-fill text-success" />;
+        return <i className="bi bi-check2-circle text-success" />;
       }
       return <i className="bi bi-x-circle-fill text-danger" />;
     }
 
-    return <i className="bi bi-square" />;
+    return null;
   };
 
   const renderItem = (item, side) => {
@@ -75,42 +75,40 @@ const QuizColumns = ({ hasStarted }) => {
         className={`quiz-item ${isLeft ? "quiz-item-left" : "quiz-item-right"}`}
         onClick={handleClick}
       >
-        {isLeft ? (
-          <>
-            <span className={`quiz-text text-end ${textClass}`}>{text}</span>
-            <span className="quiz-icon-cell">{icon}</span>
-          </>
-        ) : (
-          <>
-            <span className="quiz-icon-cell">{icon}</span>
-            <span className={`quiz-text text-start ${textClass}`}>{text}</span>
-          </>
-        )}
+        <span className={`quiz-text ${isLeft ? "text-end" : "text-start"} ${textClass}`}>
+          {text}
+        </span>
+        {icon && <span className="quiz-status-icon">{icon}</span>}
       </ListGroupItem>
     );
   };
 
+  const pairCount = Math.max(leftItems.length, rightItems.length);
+  const pairedRows = Array.from({ length: pairCount }, (_, index) => ({
+    left: leftItems[index],
+    right: rightItems[index],
+  }));
+
   return (
-    <Row
-      className={`quiz-columns g-3 row-cols-2 row-cols-md-2 ${hasStarted ? "is-visible" : ""}`}
-    >
-      <Col className="d-flex flex-column">
-        <div className="column-title text-end justify-content-end">
-          <span className="pill-label">q</span>
-        </div>
-        <ListGroup className="shadow-sm quiz-list">
-          {leftItems.map((item) => renderItem(item, "left"))}
-        </ListGroup>
-      </Col>
-      <Col className="d-flex flex-column">
-        <div className="column-title">
-          <span className="pill-label">a</span>
-        </div>
-        <ListGroup className="shadow-sm quiz-list">
-          {rightItems.map((item) => renderItem(item, "right"))}
-        </ListGroup>
-      </Col>
-    </Row>
+    <div className={`quiz-columns ${hasStarted ? "is-visible" : ""}`}>
+      <div className="column-title-row">
+        <div className="column-title text-end">Вопросы</div>
+        <div className="column-title text-start">Ответы</div>
+      </div>
+
+      <div className="quiz-grid shadow-sm">
+        {pairedRows.map((pair, index) => (
+          <div className="quiz-grid-row" key={pair.left?.id ?? pair.right?.id ?? index}>
+            <div className="quiz-grid-cell">
+              {pair.left && renderItem(pair.left, "left")}
+            </div>
+            <div className="quiz-grid-cell">
+              {pair.right && renderItem(pair.right, "right")}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
