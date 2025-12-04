@@ -13,6 +13,7 @@ import {
 
 import { QuizContext } from "../../../core/context/Context.jsx";
 import { useAuthGuard } from "../../../core/hooks/useAuthGuard.js";
+import { topics } from "../../../core/data/questions.js";
 
 const Topics = () => {
   const { initQuiz } = useContext(QuizContext);
@@ -20,8 +21,8 @@ const Topics = () => {
 
   useAuthGuard();
 
-  const handleSelect = () => {
-    initQuiz({ id: "react-basics", title: "React: основы и практики" });
+  const handleSelect = (topic) => () => {
+    initQuiz(topic);
     navigate("/quiz");
   };
 
@@ -36,26 +37,26 @@ const Topics = () => {
                 Выбор темы
               </CardTitle>
 
-              <Card className="mb-3 border-primary">
-                <CardBody>
-                  <CardTitle className="fs-5 mb-2">
-                    <i className="bi bi-book-half me-2 text-primary" />
-                    React: основы и практики
-                  </CardTitle>
-                  <CardText className="mb-3 text-muted">
-                    Сопоставляйте вопросы по React с краткими
-                    ответами, чтобы освежить знания по хукам,
-                    состоянию и жизненному циклу.
-                  </CardText>
-                  <Button variant="primary" type="button" onClick={handleSelect}>
-                    Выбрать тему
-                  </Button>
-                </CardBody>
-              </Card>
-
-              <CardText className="text-muted small mb-0">
-                В будущем здесь появятся и другие темы.
-              </CardText>
+              {topics.map((topic) => (
+                <Card key={topic.id} className="mb-3 border-primary">
+                  <CardBody>
+                    <CardTitle className="fs-5 mb-2">
+                      <i className="bi bi-book-half me-2 text-primary" />
+                      {topic.title}
+                    </CardTitle>
+                    <CardText className="mb-3 text-muted">
+                      {topic.description}
+                    </CardText>
+                    <Button
+                      variant="primary"
+                      type="button"
+                      onClick={handleSelect(topic)}
+                    >
+                      Выбрать тему
+                    </Button>
+                  </CardBody>
+                </Card>
+              ))}
             </CardBody>
           </Card>
         </Col>
