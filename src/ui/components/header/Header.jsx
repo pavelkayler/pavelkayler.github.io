@@ -6,7 +6,7 @@ import { QuizContext, UserContext } from "../../../core/context/Context.jsx";
 
 const Header = () => {
   const location = useLocation();
-  const { isAuth } = useContext(UserContext);
+  const { isAuth, userName } = useContext(UserContext);
   const {
     topic,
     timeLeft,
@@ -51,6 +51,7 @@ const Header = () => {
 
   const showQuizControls = isQuizPage && wasStarted && !isQuizFinished;
   const isCountdownActive = countdownText !== null;
+  const displayName = userName?.trim() || "Пользователь";
 
   return (
     <Navbar
@@ -78,17 +79,24 @@ const Header = () => {
             </Button>
           </div>
         ) : (
-          <div className="d-flex align-items-center justify-content-between w-100">
+          <div className="d-flex align-items-center w-100 gap-3">
             <Navbar.Brand
               as={Link}
               to="/topics"
               onClick={handleTopicClick}
-              className="brand-topic"
+              className="brand-topic flex-shrink-0"
             >
               {isTopicsPage || isHistoryPage ? "Выбор темы" : topic?.title || "Тема"}
             </Navbar.Brand>
 
-            <div className="d-flex align-items-center gap-2">
+            <div className="flex-grow-1 d-flex justify-content-center">
+              <span className="auth-status-pill" aria-live="polite">
+                <span className="status-dot" aria-hidden="true" />
+                <span className="fw-semibold">{displayName}</span>
+              </span>
+            </div>
+
+            <div className="d-flex align-items-center gap-2 flex-shrink-0">
               <Button
                 variant="outline-primary"
                 className="nav-pill-btn"
