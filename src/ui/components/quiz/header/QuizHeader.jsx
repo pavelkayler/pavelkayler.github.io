@@ -19,7 +19,7 @@ const QuizHeader = ({
     centerText = currentPrompt.text;
   }
 
-  const shouldRender = showIntroCard && (countdown !== null || !hasStarted);
+  const shouldRender = showIntroCard && !hasStarted;
 
   return (
     <div className={`quiz-header ${isFadingOut ? "is-fading" : ""}`}>

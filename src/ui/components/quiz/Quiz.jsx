@@ -72,19 +72,13 @@ const Quiz = () => {
   };
 
   useEffect(() => {
-    if (!wasStarted || countdown !== null) {
-      const timeoutId = setTimeout(() => {
-        setShowIntroCard(true);
-      }, 0);
-
-      return () => clearTimeout(timeoutId);
+    if (!wasStarted) {
+      setShowIntroCard(true);
+      return undefined;
     }
 
-    const timeoutId = setTimeout(() => {
-      setShowIntroCard(false);
-    }, 320);
-
-    return () => clearTimeout(timeoutId);
+    setShowIntroCard(false);
+    return undefined;
   }, [countdown, wasStarted]);
 
   // анимация "+1" по изменению score
