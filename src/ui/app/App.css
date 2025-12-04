@@ -954,6 +954,17 @@ h5 {
         justify-content: flex-end;
     }
 
+    .header-grid--compact {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas: "brand actions";
+        align-items: center;
+        justify-items: stretch;
+    }
+
+    .header-grid--compact .header-grid__actions {
+        justify-content: flex-end;
+    }
+
     .history-stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -985,6 +996,18 @@ h5 {
 
     .header-grid__actions {
         justify-content: center;
+    }
+
+    .header-grid--compact {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas: "brand actions";
+        gap: 0.65rem;
+        align-items: center;
+        justify-items: stretch;
+    }
+
+    .header-grid--compact .header-grid__actions {
+        justify-content: flex-end;
     }
 
     .history-stats {
