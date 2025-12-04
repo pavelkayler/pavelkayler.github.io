@@ -4,7 +4,13 @@ import { Button } from "react-bootstrap";
 
 import { QuizContext } from "../../../../core/context/Context.jsx";
 
-const QuizHeader = ({ hasStarted, countdown, onStart }) => {
+const QuizHeader = ({
+  hasStarted,
+  countdown,
+  onStart,
+  isFadingOut,
+  showIntroCard,
+}) => {
   const { currentPrompt } = useContext(QuizContext);
 
   let centerText = "";
@@ -15,11 +21,11 @@ const QuizHeader = ({ hasStarted, countdown, onStart }) => {
     centerText = currentPrompt.text;
   }
 
-  const showIntroCard = countdown !== null || !hasStarted;
+  const shouldRender = showIntroCard && (countdown !== null || !hasStarted);
 
   return (
-    <div className="quiz-header">
-      {showIntroCard && (
+    <div className={`quiz-header ${isFadingOut ? "is-fading" : ""}`}>
+      {shouldRender && (
         <div className="prompt-card">
           <p className="prompt-subtitle">
             Сопоставьте вопросы по React с правильными ответами

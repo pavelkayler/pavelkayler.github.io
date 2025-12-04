@@ -66,43 +66,37 @@ const QuizColumns = ({ hasStarted }) => {
 
     const icon = getIcon(item, side);
 
-    if (side === "left") {
-      return (
-        <ListGroupItem
-          key={item.id}
-          variant={variant}
-          className="quiz-item"
-          onClick={handleClick}
-        >
-          <span className={`flex-grow-1 text-end quiz-text ${textClass}`}>
-            {text}
-          </span>
-          <span className="ms-2">{icon}</span>
-        </ListGroupItem>
-      );
-    }
+    const isLeft = side === "left";
 
     return (
       <ListGroupItem
         key={item.id}
         variant={variant}
-        className="quiz-item"
+        className={`quiz-item ${isLeft ? "quiz-item-left" : "quiz-item-right"}`}
         onClick={handleClick}
       >
-        <span className="me-2">{icon}</span>
-        <span className={`flex-grow-1 text-start quiz-text ${textClass}`}>
-          {text}
-        </span>
+        {isLeft ? (
+          <>
+            <span className={`quiz-text text-end ${textClass}`}>{text}</span>
+            <span className="quiz-icon-cell">{icon}</span>
+          </>
+        ) : (
+          <>
+            <span className="quiz-icon-cell">{icon}</span>
+            <span className={`quiz-text text-start ${textClass}`}>{text}</span>
+          </>
+        )}
       </ListGroupItem>
     );
   };
 
   return (
-    <Row className="quiz-columns g-3 row-cols-2 row-cols-md-2">
+    <Row
+      className={`quiz-columns g-3 row-cols-2 row-cols-md-2 ${hasStarted ? "is-visible" : ""}`}
+    >
       <Col className="d-flex flex-column">
-        <div className="column-title text-end">
-          <span className="pill-label">Q</span>
-          <h5 className="mb-0 text-accent">Вопросы по React</h5>
+        <div className="column-title text-end justify-content-end">
+          <span className="pill-label">q</span>
         </div>
         <ListGroup className="shadow-sm quiz-list">
           {leftItems.map((item) => renderItem(item, "left"))}
@@ -110,8 +104,7 @@ const QuizColumns = ({ hasStarted }) => {
       </Col>
       <Col className="d-flex flex-column">
         <div className="column-title">
-          <span className="pill-label">A</span>
-          <h5 className="mb-0 text-accent">Ответы</h5>
+          <span className="pill-label">a</span>
         </div>
         <ListGroup className="shadow-sm quiz-list">
           {rightItems.map((item) => renderItem(item, "right"))}

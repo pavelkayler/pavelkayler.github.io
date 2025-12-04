@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Card, CardBody, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, CardBody } from "react-bootstrap";
 
 import { QuizContext } from "../../../core/context/Context.jsx";
 import { useAuthGuard } from "../../../core/hooks/useAuthGuard.js";
@@ -66,6 +66,7 @@ const Quiz = () => {
   // локальное состояние для "Начать" + отсчёт
   const [hasStarted, setHasStarted] = useState(false);
   const [countdown, setCountdown] = useState(null);
+  const [showIntroCard, setShowIntroCard] = useState(true);
 
   const handleStart = () => {
     if (hasStarted) {
@@ -95,6 +96,22 @@ const Quiz = () => {
     return () => clearTimeout(timeoutId);
   }, [countdown, startQuiz]);
 
+  useEffect(() => {
+    if (!hasStarted || countdown !== null) {
+      const timeoutId = setTimeout(() => {
+        setShowIntroCard(true);
+      }, 0);
+
+      return () => clearTimeout(timeoutId);
+    }
+
+    const timeoutId = setTimeout(() => {
+      setShowIntroCard(false);
+    }, 320);
+
+    return () => clearTimeout(timeoutId);
+  }, [countdown, hasStarted]);
+
   // анимация "+1" по изменению score
   const [showBurst, setShowBurst] = useState(false);
   const prevScoreRef = useRef(score);
@@ -123,21 +140,17 @@ const Quiz = () => {
               <ScoreBurst visible={showBurst} />
               <ComboBurst streak={streak} />
 
-              <QuizHeader
-                hasStarted={hasStarted}
-                countdown={countdown}
-                onStart={handleStart}
-              />
+              <div className="quiz-stage">
+                <QuizColumns hasStarted={hasStarted} />
 
-              <QuizColumns hasStarted={hasStarted} />
-
-              {wasStarted && !isQuizFinished && (
-                <div className="quiz-footer-actions">
-                  <Button variant="outline-danger" type="button" onClick={finishQuiz}>
-                    Завершить
-                  </Button>
-                </div>
-              )}
+                <QuizHeader
+                  hasStarted={hasStarted}
+                  countdown={countdown}
+                  onStart={handleStart}
+                  isFadingOut={hasStarted && countdown === null}
+                  showIntroCard={showIntroCard}
+                />
+              </div>
             </CardBody>
           </Card>
         </Col>
