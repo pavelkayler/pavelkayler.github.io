@@ -58,7 +58,7 @@ const Header = () => {
 
             <Button
               variant="outline-danger"
-              className="header-finish-btn"
+              className="header-finish-btn ms-auto"
               type="button"
               onClick={finishQuiz}
               disabled={!isRunning}
