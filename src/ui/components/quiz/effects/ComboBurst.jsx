@@ -5,7 +5,13 @@ const ComboBurst = ({ streak }) => {
 
   return (
     <div key={streak} className="combo-burst">
-      <i className="bi bi-fire me-2" />Комбо x{streak}!
+      <div className="combo-burst__content">
+        <i className="bi bi-fire combo-burst__icon" aria-hidden />
+        <div className="combo-burst__text">
+          <div className="combo-burst__label">Комбо</div>
+          <div className="combo-burst__value">x{streak}</div>
+        </div>
+      </div>
     </div>
   );
 };
