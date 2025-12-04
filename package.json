@@ -2,7 +2,7 @@
   "name": "victory",
   "private": true,
   "version": "0.0.1",
-  "homepage": "/",
+  "homepage": "https://pavelkayler.github.io/",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,11 +10,12 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "main -d dist"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
+    "gh-pages": "^6.3.0",
     "prettier": "^3.7.3",
     "react": "^19.2.0",
     "react-bootstrap": "^2.10.10",
