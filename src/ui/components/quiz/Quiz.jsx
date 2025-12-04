@@ -16,10 +16,11 @@ const Quiz = () => {
     isQuizFinished,
     sessionId,
     completedSessionId,
-    startQuiz,
+    startCountdown,
     finishQuiz,
     wasStarted,
     isRunning,
+    countdown,
   } = useContext(QuizContext);
 
   useAuthGuard();
@@ -64,40 +65,14 @@ const Quiz = () => {
   }, [finishQuiz]);
 
   // локальное состояние для "Начать" + отсчёт
-  const [hasStarted, setHasStarted] = useState(false);
-  const [countdown, setCountdown] = useState(null);
   const [showIntroCard, setShowIntroCard] = useState(true);
 
   const handleStart = () => {
-    if (hasStarted) {
-      return;
-    }
-    setHasStarted(true);
-    setCountdown(3);
+    startCountdown();
   };
 
   useEffect(() => {
-    if (countdown === null) {
-      return;
-    }
-
-    if (countdown === 0) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setCountdown(null);
-      startQuiz();
-      return;
-    }
-
-    const timeoutId = setTimeout(
-      () => setCountdown((prev) => prev - 1),
-      1000,
-    );
-
-    return () => clearTimeout(timeoutId);
-  }, [countdown, startQuiz]);
-
-  useEffect(() => {
-    if (!hasStarted || countdown !== null) {
+    if (!wasStarted || countdown !== null) {
       const timeoutId = setTimeout(() => {
         setShowIntroCard(true);
       }, 0);
@@ -110,7 +85,7 @@ const Quiz = () => {
     }, 320);
 
     return () => clearTimeout(timeoutId);
-  }, [countdown, hasStarted]);
+  }, [countdown, wasStarted]);
 
   // анимация "+1" по изменению score
   const [showBurst, setShowBurst] = useState(false);
@@ -141,14 +116,14 @@ const Quiz = () => {
               <ComboBurst streak={streak} />
 
               <div className="quiz-stage">
-                <QuizColumns hasStarted={hasStarted} />
+                <QuizColumns hasStarted={wasStarted} />
 
                 <QuizHeader
-                  hasStarted={hasStarted}
                   countdown={countdown}
                   onStart={handleStart}
-                  isFadingOut={hasStarted && countdown === null}
+                  isFadingOut={wasStarted && countdown === null}
                   showIntroCard={showIntroCard}
+                  hasStarted={wasStarted}
                 />
               </div>
             </CardBody>

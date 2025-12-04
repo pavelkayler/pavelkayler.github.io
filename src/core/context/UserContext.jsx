@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 
 const AUTH_STORAGE_KEY = "quiz-auth-state";
 
@@ -36,16 +36,24 @@ const UserProvider = ({ children }) => {
     logoutCount: 0,
   });
 
-  const persistAuth = (authState) => {
+  const persistAuth = useCallback((authState) => {
+    if (typeof localStorage === "undefined") {
+      return;
+    }
+
     if (authState.isAuth) {
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authState));
       return;
     }
 
     localStorage.removeItem(AUTH_STORAGE_KEY);
-  };
+  }, []);
 
-  const login = (name) => {
+  useEffect(() => {
+    persistAuth({ isAuth, userName });
+  }, [isAuth, persistAuth, userName]);
+
+  const login = useCallback((name) => {
     const nextName = name || "Гость";
 
     setIsAuth(true);
@@ -56,9 +64,9 @@ const UserProvider = ({ children }) => {
     }));
 
     persistAuth({ isAuth: true, userName: nextName });
-  };
+  }, [persistAuth]);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setIsAuth(false);
     setUserName("");
     setUserStats((prev) => ({
@@ -67,7 +75,7 @@ const UserProvider = ({ children }) => {
     }));
 
     persistAuth({ isAuth: false, userName: "" });
-  };
+  }, [persistAuth]);
 
   const value = useMemo(
     () => ({
@@ -77,7 +85,7 @@ const UserProvider = ({ children }) => {
       login,
       logout,
     }),
-    [isAuth, userName, userStats],
+    [isAuth, userName, userStats, login, logout],
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

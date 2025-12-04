@@ -15,9 +15,7 @@ const QuizHeader = ({
 
   let centerText = "";
 
-  if (countdown !== null) {
-    centerText = countdown === 0 ? "Старт!" : String(countdown);
-  } else if (!hasStarted && currentPrompt) {
+  if (!hasStarted && currentPrompt) {
     centerText = currentPrompt.text;
   }
 

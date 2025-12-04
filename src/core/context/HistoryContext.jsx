@@ -1,9 +1,33 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 const HistoryContext = createContext(null);
 
+const HISTORY_STORAGE_KEY = "quiz-history";
+
+const getStoredHistory = () => {
+  if (typeof localStorage === "undefined") {
+    return [];
+  }
+
+  try {
+    const raw = localStorage.getItem(HISTORY_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (error) {
+    console.error("Failed to read history from storage", error);
+    return [];
+  }
+};
+
 const HistoryProvider = ({ children }) => {
-  const [quizHistory, setQuizHistory] = useState([]);
+  const [quizHistory, setQuizHistory] = useState(() => getStoredHistory());
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(quizHistory));
+    } catch (error) {
+      console.error("Failed to persist history", error);
+    }
+  }, [quizHistory]);
 
   const addQuizAttempt = (attempt) => {
     setQuizHistory((prev) => [
