@@ -14,26 +14,6 @@ const QuizColumns = ({ hasStarted }) => {
     handleItemClick,
   } = useContext(QuizContext);
 
-  const getIcon = (item, side) => {
-    if (!hasStarted) {
-      return null;
-    }
-
-    const isFeedbackItem =
-      feedback &&
-      feedback.side === side &&
-      feedback.itemId === item.id;
-
-    if (isFeedbackItem) {
-      if (feedback.result === "correct") {
-        return <i className="bi bi-check2-circle text-success" />;
-      }
-      return <i className="bi bi-x-circle-fill text-danger" />;
-    }
-
-    return null;
-  };
-
   const renderItem = (item, side) => {
     const isPromptItem =
       currentPrompt && currentPrompt.itemId === item.id;
@@ -64,8 +44,6 @@ const QuizColumns = ({ hasStarted }) => {
       ? "quiz-text-visible"
       : "quiz-text-hidden";
 
-    const icon = getIcon(item, side);
-
     const isLeft = side === "left";
 
     return (
@@ -78,7 +56,6 @@ const QuizColumns = ({ hasStarted }) => {
         <span className={`quiz-text ${isLeft ? "text-end" : "text-start"} ${textClass}`}>
           {text}
         </span>
-        {icon && <span className="quiz-status-icon">{icon}</span>}
       </ListGroupItem>
     );
   };
