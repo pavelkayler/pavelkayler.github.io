@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-import { questions as baseQuestions } from "../data/questions.js";
+import { topics } from "../data/questions.js";
 import { UserContext } from "./UserContext.jsx";
 import { HistoryContext } from "./HistoryContext.jsx";
 
@@ -84,21 +84,21 @@ const pickRandomPrompt = (columns, prevPairId = null) => {
 
 const QUIZ_DURATION_SECONDS = 5 * 60; // 5 минут
 
-const defaultTopic = null;
-
-const initialColumns = createColumns(baseQuestions);
+const defaultTopic = topics[0];
 
 const QuizProvider = ({ children }) => {
   const { userName } = useContext(UserContext);
   const { addQuizAttempt } = useContext(HistoryContext);
 
-  const [questions] = useState(baseQuestions);
+  const [questions, setQuestions] = useState(defaultTopic.questions);
   const [topic, setTopic] = useState(defaultTopic);
 
   const [sessionId, setSessionId] = useState(0);
   const [completedSessionId, setCompletedSessionId] = useState(null);
 
-  const [columns, setColumns] = useState(initialColumns);
+  const [columns, setColumns] = useState(() =>
+    createColumns(defaultTopic.questions),
+  );
   const { leftItems, rightItems } = columns;
 
   const [currentPrompt, setCurrentPrompt] = useState(null);
@@ -122,11 +122,12 @@ const QuizProvider = ({ children }) => {
 
   // подготовка квиза (после выбора темы)
   const initQuiz = useCallback((nextTopic = null) => {
-    if (nextTopic) {
-      setTopic(nextTopic);
-    }
+    const selectedTopic = nextTopic || topic || defaultTopic;
 
-    const newColumns = createColumns(questions);
+    setTopic(selectedTopic);
+    setQuestions(selectedTopic.questions);
+
+    const newColumns = createColumns(selectedTopic.questions);
 
     setColumns(newColumns);
     setCurrentPrompt(null);
@@ -147,7 +148,7 @@ const QuizProvider = ({ children }) => {
     setSessionId((prev) => prev + 1);
     setCompletedSessionId(null);
     setCountdown(null);
-  }, [questions]);
+  }, [topic]);
 
   const resetTopic = useCallback(() => {
     setTopic(null);
