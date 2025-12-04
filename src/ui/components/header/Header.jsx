@@ -50,7 +50,7 @@ const Header = () => {
     >
       <Container fluid>
         {showQuizControls ? (
-          <div className="d-flex align-items-center gap-2 w-100 justify-content-between">
+          <div className="quiz-top-bar">
             <div className="quiz-timer" aria-live="polite">
               <i className="bi bi-stopwatch me-2 text-warning" />
               <span className="fw-semibold">{timerText}</span>
