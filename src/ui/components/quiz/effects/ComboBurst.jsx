@@ -1,5 +1,5 @@
-const ComboBurst = ({ streak }) => {
-  if (streak < 3) {
+const ComboBurst = ({ streak, visible }) => {
+  if (!visible) {
     return null;
   }
 

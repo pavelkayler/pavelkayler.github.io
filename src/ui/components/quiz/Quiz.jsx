@@ -72,6 +72,8 @@ const Quiz = () => {
   // анимация "+1" по изменению score
   const [showBurst, setShowBurst] = useState(false);
   const prevScoreRef = useRef(score);
+  const [showCombo, setShowCombo] = useState(false);
+  const prevStreakRef = useRef(streak);
 
   useEffect(() => {
     if (score > prevScoreRef.current) {
@@ -88,6 +90,26 @@ const Quiz = () => {
     return undefined;
   }, [score]);
 
+  // вспышка комбо только на рост серии, а не постоянно
+  useEffect(() => {
+    const prevStreak = prevStreakRef.current;
+
+    if (streak >= 3 && streak > prevStreak) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setShowCombo(true);
+      const timeoutId = setTimeout(() => setShowCombo(false), 900);
+      prevStreakRef.current = streak;
+      return () => clearTimeout(timeoutId);
+    }
+
+    if (streak < 3) {
+      setShowCombo(false);
+    }
+
+    prevStreakRef.current = streak;
+    return undefined;
+  }, [streak]);
+
   const showIntroCard = !wasStarted;
 
   return (
@@ -97,7 +119,7 @@ const Quiz = () => {
           <Card className="shadow-sm p-3 p-md-4 page-card quiz-card">
             <CardBody className="quiz-body">
               <ScoreBurst visible={showBurst && streak < 3} />
-              <ComboBurst streak={streak} />
+              <ComboBurst streak={streak} visible={showCombo} />
 
               <div className="quiz-stage">
                 <QuizColumns hasStarted={wasStarted} />
