@@ -627,7 +627,7 @@ h5 {
     .list-group-item.quiz-item {
         min-height: 46px;
         font-size: 0.82rem;
-        padding-inline: 0.75rem;
+        padding-inline: clamp(1rem, 5vw, 1.3rem);
     }
 
     .column-title {
