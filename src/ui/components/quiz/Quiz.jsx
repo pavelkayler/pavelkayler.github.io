@@ -97,7 +97,7 @@ const Quiz = () => {
     if (streak >= 3 && streak > prevStreak) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowCombo(true);
-      const timeoutId = setTimeout(() => setShowCombo(false), 900);
+      const timeoutId = setTimeout(() => setShowCombo(false), 600);
       prevStreakRef.current = streak;
       return () => clearTimeout(timeoutId);
     }

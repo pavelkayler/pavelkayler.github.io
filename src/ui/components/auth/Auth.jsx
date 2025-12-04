@@ -23,10 +23,10 @@ const Auth = () => {
   };
 
   return (
-    <Container fluid className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <Row>
-        <Col>
-          <Card className="p-4 shadow-lg page-card">
+    <Container fluid className="auth-screen">
+      <Row className="w-100 justify-content-center">
+        <Col md={10} lg={8} xl={6}>
+          <Card className="p-4 shadow-lg page-card w-100">
             <CardBody>
               <CardTitle className="mb-4 text-center fs-3">Вход в систему</CardTitle>
 
