@@ -316,7 +316,7 @@ h5 {
     background: linear-gradient(115deg, rgba(59, 130, 246, 0.06), rgba(255, 255, 255, 0.98));
     border: 1px solid rgba(59, 130, 246, 0.28);
     gap: 0.5rem;
-    padding-inline: clamp(0.85rem, 1.8vw, 1.2rem);
+    padding-inline: clamp(1.05rem, 2.4vw, 1.5rem);
     position: relative;
     overflow: hidden;
     box-shadow: 0 12px 24px rgba(59, 130, 246, 0.1);
@@ -635,7 +635,7 @@ h5 {
     .list-group-item.quiz-item {
         min-height: 46px;
         font-size: 0.82rem;
-        padding-inline: 0.75rem;
+        padding-inline: clamp(1rem, 5vw, 1.3rem);
     }
 
     .column-title {
