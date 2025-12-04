@@ -6,7 +6,6 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Table,
 } from "react-bootstrap";
 
 import { HistoryContext } from "../../../core/context/Context.jsx";
@@ -16,6 +15,25 @@ const History = () => {
   const { quizHistory } = useContext(HistoryContext);
 
   useAuthGuard();
+
+  const formatDate = (iso) => {
+    const date = new Date(iso);
+    return date.toLocaleString("ru-RU", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  const formatDuration = (seconds = 0) => {
+    const safeSeconds = Math.max(0, seconds ?? 0);
+    const minutes = Math.floor(safeSeconds / 60);
+    const restSeconds = safeSeconds % 60;
+
+    return `${String(minutes).padStart(2, "0")}:${String(restSeconds).padStart(2, "0")}`;
+  };
 
   return (
     <Container className="py-5">
@@ -30,32 +48,41 @@ const History = () => {
               {quizHistory.length === 0 ? (
                 <p className="mb-0">Пока нет ни одной попытки.</p>
               ) : (
-                <Table striped bordered hover responsive className="mb-0">
-                  <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Дата</th>
-                    <th>Пользователь</th>
-                    <th>Правильных</th>
-                    <th>Неправильных</th>
-                    <th>Время, сек</th>
-                    <th>Стрик</th>
-                  </tr>
-                  </thead>
-                  <tbody>
+                <div className="history-grid">
                   {quizHistory.map((attempt, index) => (
-                    <tr key={attempt.id ?? index}>
-                      <td>{index + 1}</td>
-                      <td>{new Date(attempt.date).toLocaleString()}</td>
-                      <td>{attempt.userName}</td>
-                      <td>{attempt.correct}</td>
-                      <td>{attempt.wrong}</td>
-                      <td>{attempt.durationSec ?? "-"}</td>
-                      <td>{attempt.streak ?? "-"}</td>
-                    </tr>
+                    <div className="history-card" key={attempt.id ?? index}>
+                      <div className="history-card__header">
+                        <span className="history-topic">
+                          {attempt.topicTitle || "Выбранная тема"}
+                        </span>
+                        <span className="history-date">{formatDate(attempt.date)}</span>
+                      </div>
+
+                      <div className="history-stats">
+                        <span className="history-pill">
+                          <i className="bi bi-person-circle text-primary" />
+                          {attempt.userName}
+                        </span>
+                        <span className="history-pill">
+                          <i className="bi bi-stopwatch text-warning" />
+                          {formatDuration(attempt.durationSec)}
+                        </span>
+                        <span className="history-pill">
+                          <i className="bi bi-check-circle-fill text-success" />
+                          {attempt.correct} верно
+                        </span>
+                        <span className="history-pill">
+                          <i className="bi bi-x-circle-fill text-danger" />
+                          {attempt.wrong} ошибок
+                        </span>
+                        <span className="history-pill">
+                          <i className="bi bi-fire text-danger" />
+                          Комбо {attempt.streak ?? "-"}
+                        </span>
+                      </div>
+                    </div>
                   ))}
-                  </tbody>
-                </Table>
+                </div>
               )}
             </CardBody>
           </Card>

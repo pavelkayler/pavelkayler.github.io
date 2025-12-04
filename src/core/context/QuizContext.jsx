@@ -84,6 +84,11 @@ const pickRandomPrompt = (columns, prevPairId = null) => {
 
 const QUIZ_DURATION_SECONDS = 5 * 60; // 5 минут
 
+const defaultTopic = {
+  id: "react-basics",
+  title: "React: основы и практики",
+};
+
 const initialColumns = createColumns(baseQuestions);
 
 const QuizProvider = ({ children }) => {
@@ -91,6 +96,7 @@ const QuizProvider = ({ children }) => {
   const { addQuizAttempt } = useContext(HistoryContext);
 
   const [questions] = useState(baseQuestions);
+  const [topic, setTopic] = useState(defaultTopic);
 
   const [sessionId, setSessionId] = useState(0);
   const [completedSessionId, setCompletedSessionId] = useState(null);
@@ -114,9 +120,14 @@ const QuizProvider = ({ children }) => {
   const [feedback, setFeedback] = useState(null); // { side, itemId, result: 'correct' | 'wrong' }
 
   const [streak, setStreak] = useState(0); // количество подряд верных ответов
+  const [bestStreak, setBestStreak] = useState(0);
 
   // подготовка квиза (после выбора темы)
-  const initQuiz = useCallback(() => {
+  const initQuiz = useCallback((nextTopic = null) => {
+    if (nextTopic) {
+      setTopic(nextTopic);
+    }
+
     const newColumns = createColumns(questions);
 
     setColumns(newColumns);
@@ -134,6 +145,7 @@ const QuizProvider = ({ children }) => {
     setIsSelectionLocked(false);
     setFeedback(null);
     setStreak(0);
+    setBestStreak(0);
     setSessionId((prev) => prev + 1);
     setCompletedSessionId(null);
   }, [questions]);
@@ -191,7 +203,11 @@ const QuizProvider = ({ children }) => {
 
     if (isCorrect) {
       setScore((prev) => prev + 1);
-      setStreak((prev) => prev + 1);
+      setStreak((prev) => {
+        const nextValue = prev + 1;
+        setBestStreak((prevBest) => Math.max(prevBest, nextValue));
+        return nextValue;
+      });
     } else {
       setErrorsCount((prev) => prev + 1);
       setStreak(0);
@@ -237,6 +253,7 @@ const QuizProvider = ({ children }) => {
   // авто-завершение по таймеру
   useEffect(() => {
     if (timeLeft === 0 && isRunning && !isQuizFinished) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsQuizFinished(true);
       setIsRunning(false);
       setCompletedSessionId(sessionId);
@@ -249,6 +266,7 @@ const QuizProvider = ({ children }) => {
       return;
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsRunRecorded(true);
 
     const durationSec = QUIZ_DURATION_SECONDS - timeLeft;
@@ -259,7 +277,8 @@ const QuizProvider = ({ children }) => {
       correct: score,
       wrong: errorsCount,
       durationSec,
-      streak,
+      streak: bestStreak,
+      topicTitle: topic.title,
     });
   }, [
     isQuizFinished,
@@ -270,12 +289,14 @@ const QuizProvider = ({ children }) => {
     score,
     errorsCount,
     timeLeft,
-    streak,
+    bestStreak,
+    topic,
   ]);
 
   const value = useMemo(
     () => ({
       questions,
+      topic,
       leftItems,
       rightItems,
       sessionId,
@@ -289,6 +310,7 @@ const QuizProvider = ({ children }) => {
       wasStarted,
       feedback,
       streak,
+      bestStreak,
       initQuiz,
       startQuiz,
       resetCounters,
@@ -297,6 +319,7 @@ const QuizProvider = ({ children }) => {
     }),
     [
       questions,
+      topic,
       leftItems,
       rightItems,
       sessionId,
@@ -310,6 +333,7 @@ const QuizProvider = ({ children }) => {
       wasStarted,
       feedback,
       streak,
+      bestStreak,
       initQuiz,
       startQuiz,
       resetCounters,

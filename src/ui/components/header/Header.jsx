@@ -2,10 +2,11 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
 
-import { UserContext } from "../../../core/context/Context.jsx";
+import { QuizContext, UserContext } from "../../../core/context/Context.jsx";
 
 const Header = () => {
   const { isAuth, userName } = useContext(UserContext);
+  const { topic } = useContext(QuizContext);
 
   if (!isAuth) {
     return null;
@@ -19,9 +20,8 @@ const Header = () => {
       className="mb-2 shadow-sm app-navbar user-header"
     >
       <Container fluid>
-        <Navbar.Brand as={Link} to="/topics" className="brand-icon">
-          <i className="bi bi-controller text-primary" aria-hidden />
-          <span className="visually-hidden">На список тем</span>
+        <Navbar.Brand as={Link} to="/topics" className="brand-topic">
+          {topic?.title || "Выбор темы"}
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="main-nav" />

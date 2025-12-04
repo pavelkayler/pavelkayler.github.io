@@ -7,6 +7,7 @@ import { useAuthGuard } from "../../../core/hooks/useAuthGuard.js";
 import { QuizHeader } from "./header/QuizHeader.jsx";
 import { QuizColumns } from "./questions/QuizColumns.jsx";
 import { ScoreBurst } from "./effects/ScoreBurst.jsx";
+import { ComboBurst } from "./effects/ComboBurst.jsx";
 
 const Quiz = () => {
   const {
@@ -80,6 +81,7 @@ const Quiz = () => {
     }
 
     if (countdown === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCountdown(null);
       startQuiz();
       return;
@@ -99,6 +101,7 @@ const Quiz = () => {
 
   useEffect(() => {
     if (score > prevScoreRef.current) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowBurst(true);
       const timeoutId = setTimeout(() => {
         setShowBurst(false);
@@ -118,9 +121,9 @@ const Quiz = () => {
           <Card className="shadow-sm p-4 page-card quiz-card">
             <CardBody className="quiz-body">
               <ScoreBurst visible={showBurst} />
+              <ComboBurst streak={streak} />
 
               <QuizHeader
-                streak={streak}
                 hasStarted={hasStarted}
                 countdown={countdown}
                 onStart={handleStart}

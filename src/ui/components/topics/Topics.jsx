@@ -21,7 +21,7 @@ const Topics = () => {
   useAuthGuard();
 
   const handleSelect = () => {
-    initQuiz();
+    initQuiz({ id: "react-basics", title: "React: основы и практики" });
     navigate("/quiz");
   };
 

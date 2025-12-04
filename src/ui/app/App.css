@@ -60,6 +60,20 @@ body {
     box-shadow: 0 10px 20px rgba(79, 70, 229, 0.12);
 }
 
+.brand-topic {
+    font-weight: 700;
+    color: #111827;
+    text-decoration: none;
+    border-radius: 14px;
+    padding: 0.65rem 1rem;
+    background: #eef2ff;
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+}
+
 .user-header {
     position: sticky;
     top: 0;
@@ -232,6 +246,10 @@ h5 {
     margin-top: 0.75rem;
 }
 
+.prompt-hint {
+    font-size: 0.95rem;
+}
+
 .prompt-progress .progress {
     width: min(420px, 100%);
     height: 12px;
@@ -262,10 +280,11 @@ h5 {
     min-height: 48px; /* > 44px, как рекомендует Apple/WCAG */
     display: flex;
     align-items: center;
-    font-size: 0.96rem;
+    font-size: clamp(0.9rem, 2.8vw, 0.98rem);
     border-radius: 12px;
     background: linear-gradient(90deg, rgba(37, 99, 235, 0.04), rgba(255, 255, 255, 0.95));
     border: 1px solid rgba(37, 99, 235, 0.2);
+    gap: 0.5rem;
 }
 
 .list-group-item.quiz-item:hover {
@@ -376,8 +395,19 @@ h5 {
 
 /* ===== ТАЙМЕР ===== */
 
-.quiz-timer span {
+.quiz-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 12px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    font-variant-numeric: tabular-nums;
+    min-width: 120px;
+    justify-content: center;
     color: #b45309;
+    font-weight: 700;
 }
 
 .quiz-columns {
@@ -498,4 +528,57 @@ h5 {
 .btn-outline-secondary:hover {
     background: #e5e7eb;
     color: #111827;
+}
+
+/* ===== ИСТОРИЯ ===== */
+
+.history-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.75rem;
+}
+
+.history-card {
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+    padding: 0.85rem 1rem;
+}
+
+.history-card__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.35rem;
+}
+
+.history-topic {
+    font-weight: 700;
+    color: #111827;
+}
+
+.history-date {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.history-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.35rem;
+    margin-top: 0.25rem;
+}
+
+.history-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
 }
