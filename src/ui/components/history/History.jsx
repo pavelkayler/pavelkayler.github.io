@@ -61,7 +61,7 @@ const History = () => {
                       </div>
 
                       <div className="history-stats">
-                        <div className="history-stat">
+                        <div className="history-stat history-stat--user">
                           <span className="history-stat__label">Участник</span>
                           <span className="history-stat__value">
                             <i className="bi bi-person-circle text-primary" />
@@ -69,7 +69,7 @@ const History = () => {
                           </span>
                         </div>
 
-                        <div className="history-stat">
+                        <div className="history-stat history-stat--time">
                           <span className="history-stat__label">Время</span>
                           <span className="history-stat__value">
                             <i className="bi bi-stopwatch text-warning" />

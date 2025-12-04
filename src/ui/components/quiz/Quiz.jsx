@@ -65,21 +65,9 @@ const Quiz = () => {
   }, [finishQuiz]);
 
   // локальное состояние для "Начать" + отсчёт
-  const [showIntroCard, setShowIntroCard] = useState(true);
-
   const handleStart = () => {
     startCountdown();
   };
-
-  useEffect(() => {
-    if (!wasStarted) {
-      setShowIntroCard(true);
-      return undefined;
-    }
-
-    setShowIntroCard(false);
-    return undefined;
-  }, [countdown, wasStarted]);
 
   // анимация "+1" по изменению score
   const [showBurst, setShowBurst] = useState(false);
@@ -100,10 +88,12 @@ const Quiz = () => {
     return undefined;
   }, [score]);
 
+  const showIntroCard = !wasStarted;
+
   return (
     <Container fluid className="py-4 px-3 px-md-4 quiz-container">
-      <Row className="justify-content-center">
-        <Col xxl={10}>
+      <Row>
+        <Col xs={12}>
           <Card className="shadow-sm p-4 page-card quiz-card">
             <CardBody className="quiz-body">
               <ScoreBurst visible={showBurst} />

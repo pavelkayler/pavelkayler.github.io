@@ -1,4 +1,4 @@
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Navbar, Container, Button } from "react-bootstrap";
 
@@ -6,7 +6,7 @@ import { QuizContext, UserContext } from "../../../core/context/Context.jsx";
 
 const Header = () => {
   const location = useLocation();
-  const { isAuth, userName } = useContext(UserContext);
+  const { isAuth, userName, logout } = useContext(UserContext);
   const {
     topic,
     timeLeft,
@@ -41,6 +41,13 @@ const Header = () => {
     return countdown === 0 ? "Старт" : String(countdown);
   }, [countdown]);
 
+  const [isLogoutMode, setIsLogoutMode] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLogoutMode(false);
+  }, [location.pathname, userName]);
+
   if (!isAuth) {
     return null;
   }
@@ -52,6 +59,16 @@ const Header = () => {
   const showQuizControls = isQuizPage && wasStarted && !isQuizFinished;
   const isCountdownActive = countdownText !== null;
   const displayName = userName?.trim() || "Пользователь";
+
+  const handleAuthToggle = () => {
+    if (isLogoutMode) {
+      logout();
+      setIsLogoutMode(false);
+      return;
+    }
+
+    setIsLogoutMode(true);
+  };
 
   return (
     <Navbar
@@ -79,24 +96,30 @@ const Header = () => {
             </Button>
           </div>
         ) : (
-          <div className="d-flex align-items-center w-100 gap-3">
+          <div className="header-grid">
             <Navbar.Brand
               as={Link}
               to="/topics"
               onClick={handleTopicClick}
-              className="brand-topic flex-shrink-0"
+              className="brand-topic header-grid__brand"
             >
               {isTopicsPage || isHistoryPage ? "Выбор темы" : topic?.title || "Тема"}
             </Navbar.Brand>
 
-            <div className="flex-grow-1 d-flex justify-content-center">
-              <span className="auth-status-pill" aria-live="polite">
+            <div className="header-grid__center">
+              <button
+                type="button"
+                className={`auth-status-pill ${isLogoutMode ? "is-logout" : ""}`}
+                aria-live="polite"
+                aria-pressed={isLogoutMode}
+                onClick={handleAuthToggle}
+              >
                 <span className="status-dot" aria-hidden="true" />
-                <span className="fw-semibold">{displayName}</span>
-              </span>
+                <span className="fw-semibold">{isLogoutMode ? "Выйти" : displayName}</span>
+              </button>
             </div>
 
-            <div className="d-flex align-items-center gap-2 flex-shrink-0">
+            <div className="header-grid__actions">
               <Button
                 variant="outline-primary"
                 className="nav-pill-btn"
