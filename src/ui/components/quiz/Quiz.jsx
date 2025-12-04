@@ -91,10 +91,10 @@ const Quiz = () => {
   const showIntroCard = !wasStarted;
 
   return (
-    <Container fluid className="py-4 px-3 px-md-4 quiz-container">
+    <Container fluid className="py-4 px-2 px-md-4 quiz-container">
       <Row>
         <Col xs={12}>
-          <Card className="shadow-sm p-4 page-card quiz-card">
+          <Card className="shadow-sm p-3 p-md-4 page-card quiz-card">
             <CardBody className="quiz-body">
               <ScoreBurst visible={showBurst} />
               <ComboBurst streak={streak} />
