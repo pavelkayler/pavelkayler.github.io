@@ -1,10 +1,4 @@
-import {
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, CardBody } from "react-bootstrap";
 
@@ -12,12 +6,10 @@ import { QuizContext } from "../../../core/context/Context.jsx";
 import { useAuthGuard } from "../../../core/hooks/useAuthGuard.js";
 import { QuizHeader } from "./header/QuizHeader.jsx";
 import { QuizColumns } from "./questions/QuizColumns.jsx";
-import { QuizFooter } from "./footer/QuizFooter.jsx";
 import { ScoreBurst } from "./effects/ScoreBurst.jsx";
 
 const Quiz = () => {
   const {
-    questions,
     score,
     streak,
     isQuizFinished,
@@ -69,9 +61,6 @@ const Quiz = () => {
       }
     };
   }, [finishQuiz]);
-
-  const totalWords = useMemo(() => questions.length * 2, [questions]);
-
 
   // локальное состояние для "Начать" + отсчёт
   const [hasStarted, setHasStarted] = useState(false);
@@ -138,8 +127,6 @@ const Quiz = () => {
               />
 
               <QuizColumns hasStarted={hasStarted} />
-
-              <QuizFooter totalWords={totalWords} />
             </CardBody>
           </Card>
         </Col>

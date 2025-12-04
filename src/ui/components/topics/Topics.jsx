@@ -40,11 +40,12 @@ const Topics = () => {
                 <CardBody>
                   <CardTitle className="fs-5 mb-2">
                     <i className="bi bi-book-half me-2 text-primary" />
-                    Английский язык. Слова
+                    React: основы и практики
                   </CardTitle>
                   <CardText className="mb-3 text-muted">
-                    Сопоставляйте английские слова с их русскими
-                    переводами в формате быстрой тренировки.
+                    Сопоставляйте вопросы по React с краткими
+                    ответами, чтобы освежить знания по хукам,
+                    состоянию и жизненному циклу.
                   </CardText>
                   <Button variant="primary" type="button" onClick={handleSelect}>
                     Выбрать тему

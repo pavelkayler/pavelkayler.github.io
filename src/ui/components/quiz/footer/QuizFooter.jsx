@@ -15,12 +15,12 @@ const QuizFooter = ({ totalWords }) => {
     <div className="quiz-footer mt-4">
       <div className="footer-grid">
         <div className="footer-card">
-          <div className="footer-title">Всего слов</div>
+          <div className="footer-title">Всего карточек</div>
           <div className="footer-value">{totalWords}</div>
         </div>
 
         <div className="footer-card">
-          <div className="footer-title">Отвечено</div>
+          <div className="footer-title">Отмечено</div>
           <div className="footer-value text-primary">{answered}</div>
           <div className="footer-sub">Осталось: {remaining}</div>
         </div>

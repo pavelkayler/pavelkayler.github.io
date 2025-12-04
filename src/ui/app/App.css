@@ -76,6 +76,11 @@ body {
     box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
 }
 
+.user-chip.compact {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.95rem;
+}
+
 .stat-chip {
     display: inline-flex;
     align-items: center;
@@ -208,12 +213,12 @@ h5 {
 
 .prompt-word {
     border-radius: 16px;
-    min-height: 56px;
+    min-height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #111827;
     background: #ffffff;
     box-shadow: 0 12px 20px rgba(15, 23, 42, 0.06);
@@ -254,10 +259,10 @@ h5 {
 /* ключевое для пальца: фиксированная высота строки и крупный клик */
 .list-group-item.quiz-item {
     cursor: pointer;
-    min-height: 52px; /* > 44px, как рекомендует Apple/WCAG */
+    min-height: 48px; /* > 44px, как рекомендует Apple/WCAG */
     display: flex;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.96rem;
     border-radius: 12px;
     background: linear-gradient(90deg, rgba(37, 99, 235, 0.04), rgba(255, 255, 255, 0.95));
     border: 1px solid rgba(37, 99, 235, 0.2);
@@ -377,12 +382,11 @@ h5 {
 
 .quiz-columns {
     margin-top: 0.5rem;
-    overflow-x: auto;
     padding-bottom: 0.25rem;
 }
 
 .quiz-columns > .col {
-    min-width: 260px;
+    min-width: 190px;
 }
 
 .quiz-list {
@@ -433,13 +437,13 @@ h5 {
     align-items: center;
     justify-content: center;
     width: 40px;
-    height: 32px;
+    height: 30px;
     border-radius: 999px;
     background: linear-gradient(135deg, #2563eb, #7c3aed);
     color: #fff;
     font-weight: 800;
     letter-spacing: 0.02em;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 /* ===== КНОПКИ ===== */

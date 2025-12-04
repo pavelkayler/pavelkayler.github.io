@@ -24,7 +24,7 @@ const shuffleArray = (source) => {
   return array;
 };
 
-// левый столбик — английские слова, правый — русские
+// левый столбик — вопросы, правый — ответы
 const createColumns = (pairs) => {
   const left = pairs.map((pair) => ({
     id: `left-${pair.id}`,
