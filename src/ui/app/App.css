@@ -753,32 +753,52 @@ h5 {
 
 .history-stats {
     display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 0.75rem;
 }
 
-.history-main-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.35rem;
-}
-
-.history-secondary-row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.35rem;
-}
-
-.history-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.55rem 0.75rem;
+.history-stat {
+    flex: 1 1 160px;
+    min-width: 0;
+    padding: 0.65rem 0.75rem;
     border-radius: 12px;
     background: #f8fafc;
     border: 1px solid #e5e7eb;
+    display: grid;
+    gap: 0.25rem;
+}
+
+.history-stat__label {
+    font-size: 0.85rem;
+    color: #6b7280;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
     font-weight: 600;
+}
+
+.history-stat__value {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 700;
+    color: #111827;
     font-variant-numeric: tabular-nums;
-    line-height: 1.15;
+    line-height: 1.25;
+}
+
+.history-stat__value i {
+    font-size: 1.05rem;
+}
+
+.history-stat--success .history-stat__value {
+    color: #15803d;
+}
+
+.history-stat--danger .history-stat__value {
+    color: #b91c1c;
+}
+
+.history-stat--combo .history-stat__value {
+    color: #c2410c;
 }
