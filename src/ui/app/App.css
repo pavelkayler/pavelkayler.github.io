@@ -332,22 +332,6 @@ h5 {
     padding-right: clamp(1.65rem, 2.6vw, 2.45rem);
 }
 
-.quiz-status-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.15rem;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
-}
-
-.quiz-item-left .quiz-status-icon {
-    right: 14px;
-}
-
-.quiz-item-right .quiz-status-icon {
-    left: 14px;
-}
-
 .list-group-item.quiz-item:hover {
     background: linear-gradient(90deg, rgba(59, 130, 246, 0.08), rgba(255, 255, 255, 1));
     transform: translateY(-1px) scale(1.01);
