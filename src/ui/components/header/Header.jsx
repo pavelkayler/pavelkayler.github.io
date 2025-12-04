@@ -13,12 +13,14 @@ const Header = () => {
     isRunning,
     isQuizFinished,
     wasStarted,
+    countdown,
     finishQuiz,
     resetTopic,
   } = useContext(QuizContext);
 
   const isQuizPage = location.pathname === "/quiz";
   const isTopicsPage = location.pathname === "/topics";
+  const isHistoryPage = location.pathname === "/history";
 
   const timerText = useMemo(() => {
     const safeSeconds = Math.max(0, timeLeft ?? 0);
@@ -31,6 +33,14 @@ const Header = () => {
     )}`;
   }, [timeLeft]);
 
+  const countdownText = useMemo(() => {
+    if (countdown === null) {
+      return null;
+    }
+
+    return countdown === 0 ? "Старт" : String(countdown);
+  }, [countdown]);
+
   if (!isAuth) {
     return null;
   }
@@ -40,6 +50,7 @@ const Header = () => {
   };
 
   const showQuizControls = isQuizPage && wasStarted && !isQuizFinished;
+  const isCountdownActive = countdownText !== null;
 
   return (
     <Navbar
@@ -51,9 +62,9 @@ const Header = () => {
       <Container fluid>
         {showQuizControls ? (
           <div className="quiz-top-bar">
-            <div className="quiz-timer" aria-live="polite">
+            <div className={`quiz-timer ${isCountdownActive ? "is-counting" : ""}`} aria-live="polite">
               <i className="bi bi-stopwatch me-2 text-warning" />
-              <span className="fw-semibold">{timerText}</span>
+              <span className="fw-semibold">{isCountdownActive ? countdownText : timerText}</span>
             </div>
 
             <Button
@@ -74,12 +85,18 @@ const Header = () => {
               onClick={handleTopicClick}
               className="brand-topic"
             >
-              {isTopicsPage ? "Выбор темы" : topic?.title || "Тема"}
+              {isTopicsPage || isHistoryPage ? "Выбор темы" : topic?.title || "Тема"}
             </Navbar.Brand>
 
             <div className="d-flex align-items-center gap-2">
-              <Button variant="outline-primary" as={Link} to="/history" type="button">
-                История
+              <Button
+                variant="outline-primary"
+                className="nav-pill-btn"
+                as={Link}
+                to={isHistoryPage ? "/topics" : "/history"}
+                type="button"
+              >
+                {isHistoryPage ? "Пройти тест" : "История"}
               </Button>
             </div>
           </div>

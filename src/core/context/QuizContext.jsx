@@ -112,6 +112,7 @@ const QuizProvider = ({ children }) => {
   const [isRunRecorded, setIsRunRecorded] = useState(false);
 
   const [wasStarted, setWasStarted] = useState(false);
+  const [countdown, setCountdown] = useState(null);
   const [isSelectionLocked, setIsSelectionLocked] = useState(false);
 
   const [feedback, setFeedback] = useState(null); // { side, itemId, result: 'correct' | 'wrong' }
@@ -145,6 +146,7 @@ const QuizProvider = ({ children }) => {
     setBestStreak(0);
     setSessionId((prev) => prev + 1);
     setCompletedSessionId(null);
+    setCountdown(null);
   }, [questions]);
 
   const resetTopic = useCallback(() => {
@@ -153,18 +155,22 @@ const QuizProvider = ({ children }) => {
 
   // старт: первый рандом + включаем таймер
   const startQuiz = useCallback(() => {
-    if (wasStarted) {
-      return;
-    }
-
-    setWasStarted(true);
     setIsRunning(true);
 
     setCurrentPrompt((prevPrompt) => {
       const prevPairId = prevPrompt ? prevPrompt.pairId : null;
       return pickRandomPrompt(columns, prevPairId);
     });
-  }, [columns, wasStarted]);
+  }, [columns]);
+
+  const startCountdown = useCallback(() => {
+    if (wasStarted || countdown !== null || isQuizFinished) {
+      return;
+    }
+
+    setWasStarted(true);
+    setCountdown(3);
+  }, [countdown, isQuizFinished, wasStarted]);
 
   const resetCounters = useCallback(() => {
     setScore(0);
@@ -231,6 +237,31 @@ const QuizProvider = ({ children }) => {
       setIsSelectionLocked(false);
     }, 250);
   }, [columns, currentPrompt, isQuizFinished, isRunning, isSelectionLocked, leftItems, rightItems]);
+
+  useEffect(() => {
+    if (countdown === null) {
+      return undefined;
+    }
+
+    const timeoutId = setTimeout(() => {
+      setCountdown((prev) => {
+        if (prev === null) {
+          return null;
+        }
+
+        const nextValue = prev - 1;
+
+        if (nextValue <= 0) {
+          startQuiz();
+          return null;
+        }
+
+        return nextValue;
+      });
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [countdown, startQuiz]);
 
   // таймер
   useEffect(() => {
@@ -309,11 +340,13 @@ const QuizProvider = ({ children }) => {
       isRunning,
       isQuizFinished,
       wasStarted,
+      countdown,
       feedback,
       streak,
       bestStreak,
       initQuiz,
       startQuiz,
+      startCountdown,
       resetCounters,
       resetTopic,
       finishQuiz,
@@ -333,11 +366,13 @@ const QuizProvider = ({ children }) => {
       isRunning,
       isQuizFinished,
       wasStarted,
+      countdown,
       feedback,
       streak,
       bestStreak,
       initQuiz,
       startQuiz,
+      startCountdown,
       resetCounters,
       resetTopic,
       finishQuiz,
