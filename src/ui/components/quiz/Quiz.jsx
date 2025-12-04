@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Card, CardBody } from "react-bootstrap";
+import { Container, Row, Col, Card, CardBody, Button } from "react-bootstrap";
 
 import { QuizContext } from "../../../core/context/Context.jsx";
 import { useAuthGuard } from "../../../core/hooks/useAuthGuard.js";
@@ -130,6 +130,14 @@ const Quiz = () => {
               />
 
               <QuizColumns hasStarted={hasStarted} />
+
+              {wasStarted && !isQuizFinished && (
+                <div className="quiz-footer-actions">
+                  <Button variant="outline-danger" type="button" onClick={finishQuiz}>
+                    Завершить
+                  </Button>
+                </div>
+              )}
             </CardBody>
           </Card>
         </Col>

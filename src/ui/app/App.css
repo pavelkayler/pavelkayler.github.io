@@ -81,6 +81,10 @@ body {
     backdrop-filter: blur(6px);
 }
 
+.header-finish-btn {
+    min-width: 130px;
+}
+
 .user-chip {
     display: inline-flex;
     align-items: center;
@@ -325,6 +329,13 @@ h5 {
     transition: opacity 0.4s ease;
 }
 
+.quiz-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
 /* ===== ВСПЛЫВАЮЩЕЕ +1 ===== */
 
 .score-burst {
@@ -450,6 +461,12 @@ h5 {
     font-weight: 800;
 }
 
+.quiz-footer-actions {
+    margin-top: 1.25rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
 .footer-sub {
     font-size: 0.95rem;
     color: #6b7280;
@@ -565,10 +582,22 @@ h5 {
 }
 
 .history-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 0.35rem;
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.history-main-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem;
+}
+
+.history-secondary-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.35rem;
 }
 
 .history-pill {

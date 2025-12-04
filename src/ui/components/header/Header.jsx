@@ -1,16 +1,45 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { useContext, useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Navbar, Container, Button } from "react-bootstrap";
 
 import { QuizContext, UserContext } from "../../../core/context/Context.jsx";
 
 const Header = () => {
-  const { isAuth, userName } = useContext(UserContext);
-  const { topic } = useContext(QuizContext);
+  const location = useLocation();
+  const { isAuth } = useContext(UserContext);
+  const {
+    topic,
+    timeLeft,
+    isRunning,
+    isQuizFinished,
+    wasStarted,
+    finishQuiz,
+    resetTopic,
+  } = useContext(QuizContext);
+
+  const isQuizPage = location.pathname === "/quiz";
+  const isTopicsPage = location.pathname === "/topics";
+
+  const timerText = useMemo(() => {
+    const safeSeconds = Math.max(0, timeLeft ?? 0);
+    const minutes = Math.floor(safeSeconds / 60);
+    const restSeconds = safeSeconds % 60;
+
+    return `${String(minutes).padStart(2, "0")}:${String(restSeconds).padStart(
+      2,
+      "0",
+    )}`;
+  }, [timeLeft]);
 
   if (!isAuth) {
     return null;
   }
+
+  const handleTopicClick = () => {
+    resetTopic();
+  };
+
+  const showQuizControls = isQuizPage && wasStarted && !isQuizFinished;
 
   return (
     <Navbar
@@ -20,27 +49,41 @@ const Header = () => {
       className="mb-2 shadow-sm app-navbar user-header"
     >
       <Container fluid>
-        <Navbar.Brand as={Link} to="/topics" className="brand-topic">
-          {topic?.title || "Выбор темы"}
-        </Navbar.Brand>
+        {showQuizControls ? (
+          <div className="d-flex align-items-center gap-2 w-100 justify-content-between">
+            <div className="quiz-timer" aria-live="polite">
+              <i className="bi bi-stopwatch me-2 text-warning" />
+              <span className="fw-semibold">{timerText}</span>
+            </div>
 
-        <Navbar.Toggle aria-controls="main-nav" />
-        <Navbar.Collapse id="main-nav">
-          <Nav className="ms-auto gap-2 align-items-center">
-            <Nav.Link as={Link} to="/topics" className="fw-semibold">
-              <i className="bi bi-grid-3x3-gap-fill me-1" />
-              Темы
-            </Nav.Link>
-            <Nav.Link as={Link} to="/history" className="fw-semibold">
-              <i className="bi bi-clock-history me-1" />
-              История
-            </Nav.Link>
-            <span className="user-chip compact">
-              <i className="bi bi-person-circle me-2" />
-              <span className="fw-semibold">{userName}</span>
-            </span>
-          </Nav>
-        </Navbar.Collapse>
+            <Button
+              variant="outline-danger"
+              className="header-finish-btn"
+              type="button"
+              onClick={finishQuiz}
+              disabled={!isRunning}
+            >
+              Завершить
+            </Button>
+          </div>
+        ) : (
+          <div className="d-flex align-items-center justify-content-between w-100">
+            <Navbar.Brand
+              as={Link}
+              to="/topics"
+              onClick={handleTopicClick}
+              className="brand-topic"
+            >
+              {isTopicsPage ? "Выбор темы" : topic?.title || "Тема"}
+            </Navbar.Brand>
+
+            <div className="d-flex align-items-center gap-2">
+              <Button variant="outline-primary" as={Link} to="/history" type="button">
+                История
+              </Button>
+            </div>
+          </div>
+        )}
       </Container>
     </Navbar>
   );

@@ -84,10 +84,7 @@ const pickRandomPrompt = (columns, prevPairId = null) => {
 
 const QUIZ_DURATION_SECONDS = 5 * 60; // 5 минут
 
-const defaultTopic = {
-  id: "react-basics",
-  title: "React: основы и практики",
-};
+const defaultTopic = null;
 
 const initialColumns = createColumns(baseQuestions);
 
@@ -149,6 +146,10 @@ const QuizProvider = ({ children }) => {
     setSessionId((prev) => prev + 1);
     setCompletedSessionId(null);
   }, [questions]);
+
+  const resetTopic = useCallback(() => {
+    setTopic(null);
+  }, []);
 
   // старт: первый рандом + включаем таймер
   const startQuiz = useCallback(() => {
@@ -314,6 +315,7 @@ const QuizProvider = ({ children }) => {
       initQuiz,
       startQuiz,
       resetCounters,
+      resetTopic,
       finishQuiz,
       handleItemClick,
     }),
@@ -337,6 +339,7 @@ const QuizProvider = ({ children }) => {
       initQuiz,
       startQuiz,
       resetCounters,
+      resetTopic,
       finishQuiz,
       handleItemClick,
     ],

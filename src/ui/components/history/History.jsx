@@ -59,26 +59,31 @@ const History = () => {
                       </div>
 
                       <div className="history-stats">
-                        <span className="history-pill">
-                          <i className="bi bi-person-circle text-primary" />
-                          {attempt.userName}
-                        </span>
-                        <span className="history-pill">
-                          <i className="bi bi-stopwatch text-warning" />
-                          {formatDuration(attempt.durationSec)}
-                        </span>
-                        <span className="history-pill">
-                          <i className="bi bi-check-circle-fill text-success" />
-                          {attempt.correct} верно
-                        </span>
-                        <span className="history-pill">
-                          <i className="bi bi-x-circle-fill text-danger" />
-                          {attempt.wrong} ошибок
-                        </span>
-                        <span className="history-pill">
-                          <i className="bi bi-fire text-danger" />
-                          Комбо {attempt.streak ?? "-"}
-                        </span>
+                        <div className="history-main-row">
+                          <span className="history-pill">
+                            <i className="bi bi-person-circle text-primary" />
+                            {attempt.userName}
+                          </span>
+                          <span className="history-pill">
+                            <i className="bi bi-stopwatch text-warning" />
+                            {formatDuration(attempt.durationSec)}
+                          </span>
+                        </div>
+
+                        <div className="history-secondary-row">
+                          <span className="history-pill">
+                            <i className="bi bi-check-circle-fill text-success" />
+                            {attempt.correct} верно
+                          </span>
+                          <span className="history-pill">
+                            <i className="bi bi-x-circle-fill text-danger" />
+                            {attempt.wrong} ошибок
+                          </span>
+                          <span className="history-pill">
+                            <i className="bi bi-fire text-danger" />
+                            Комбо {attempt.streak ?? "-"}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   ))}

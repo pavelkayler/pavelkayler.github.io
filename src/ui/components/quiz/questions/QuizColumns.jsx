@@ -74,7 +74,7 @@ const QuizColumns = ({ hasStarted }) => {
           className="quiz-item"
           onClick={handleClick}
         >
-          <span className={`flex-grow-1 text-end ${textClass}`}>
+          <span className={`flex-grow-1 text-end quiz-text ${textClass}`}>
             {text}
           </span>
           <span className="ms-2">{icon}</span>
@@ -90,7 +90,7 @@ const QuizColumns = ({ hasStarted }) => {
         onClick={handleClick}
       >
         <span className="me-2">{icon}</span>
-        <span className={`flex-grow-1 text-start ${textClass}`}>
+        <span className={`flex-grow-1 text-start quiz-text ${textClass}`}>
           {text}
         </span>
       </ListGroupItem>
