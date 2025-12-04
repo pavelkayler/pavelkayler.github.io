@@ -11,13 +11,12 @@ const QuizHeader = ({
   isFadingOut,
   showIntroCard,
 }) => {
-  const { currentPrompt } = useContext(QuizContext);
+  const { currentPrompt, topic } = useContext(QuizContext);
 
-  let centerText = "";
-
-  if (!hasStarted && currentPrompt) {
-    centerText = currentPrompt.text;
-  }
+  const centerText = !hasStarted && currentPrompt ? currentPrompt.text : "";
+  const titleText = topic?.title || "Подборка вопросов";
+  const subtitleText = topic?.description
+    || "Сопоставьте карточки, чтобы начать тренировку.";
 
   const shouldRender = showIntroCard && !hasStarted;
 
@@ -25,9 +24,8 @@ const QuizHeader = ({
     <div className={`quiz-header ${isFadingOut ? "is-fading" : ""}`}>
       {shouldRender && (
         <div className="prompt-card">
-          <p className="prompt-subtitle">
-            Сопоставьте вопросы по React с правильными ответами
-          </p>
+          <p className="prompt-subtitle">{titleText}</p>
+          <p className="prompt-description">{subtitleText}</p>
           <div className="prompt-word">
             {centerText || "Нажмите \"Начать\""}
           </div>
