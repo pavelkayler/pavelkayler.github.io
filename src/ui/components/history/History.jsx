@@ -52,10 +52,12 @@ const History = () => {
                   {quizHistory.map((attempt, index) => (
                     <div className="history-card" key={attempt.id ?? index}>
                       <div className="history-card__header">
-                        <span className="history-topic">
-                          {attempt.topicTitle || "Выбранная тема"}
-                        </span>
-                        <span className="history-date">{formatDate(attempt.date)}</span>
+                        <div className="history-topic-block">
+                          <span className="history-topic">
+                            {attempt.topicTitle || "Выбранная тема"}
+                          </span>
+                          <span className="history-date">{formatDate(attempt.date)}</span>
+                        </div>
                       </div>
 
                       <div className="history-stats">
