@@ -91,7 +91,7 @@ const QuizHeader = ({ streak, hasStarted, countdown, onStart }) => {
         <ComboBurst streak={streak} />
 
         <p className="prompt-subtitle">
-          Сопоставьте английские и русские слова
+          Сопоставьте вопросы по React с правильными ответами
         </p>
         <div className="prompt-word">
           {centerText || "Нажмите \"Начать\""}
@@ -107,21 +107,21 @@ const QuizHeader = ({ streak, hasStarted, countdown, onStart }) => {
           >
             {primaryLabel}
           </Button>
-          <div className="prompt-progress">
-            <div className="progress" role="progressbar" aria-valuenow={totalAnswered} aria-valuemin="0" aria-valuemax={totalWords}>
-              <div
-                className="progress-bar bg-primary"
-                style={{ width: `${(totalAnswered / totalWords) * 100}%` }}
-              >
-                {totalAnswered} / {totalWords}
+            <div className="prompt-progress">
+              <div className="progress" role="progressbar" aria-valuenow={totalAnswered} aria-valuemin="0" aria-valuemax={totalWords}>
+                <div
+                  className="progress-bar bg-primary"
+                  style={{ width: `${(totalAnswered / totalWords) * 100}%` }}
+                >
+                  {totalAnswered} / {totalWords}
+                </div>
               </div>
-            </div>
-            <div className="prompt-progress-text text-muted">
-              Осталось слов: {remaining}
+              <div className="prompt-progress-text text-muted">
+                Осталось карточек: {remaining}
+              </div>
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 };

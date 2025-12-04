@@ -58,7 +58,7 @@ const Result = () => {
           <Card className="p-4 shadow-sm">
             <CardBody>
               <CardTitle className="fs-4 mb-3">
-                Список слов для сопоставления
+                Вопросы и ответы викторины
               </CardTitle>
 
               <ListGroup>
