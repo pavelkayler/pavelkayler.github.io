@@ -429,7 +429,7 @@ h5 {
 /* ключевое для пальца: фиксированная высота строки и крупный клик */
 .list-group-item.quiz-item {
     cursor: pointer;
-    min-height: 52px; /* > 44px, как рекомендует Apple/WCAG */
+    min-height: 44px; /* держим под палец, но делаем компактнее */
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -760,7 +760,7 @@ h5 {
     }
 
     .list-group-item.quiz-item {
-        min-height: 46px;
+        min-height: 42px;
         font-size: 0.82rem;
         padding-inline: clamp(0.85rem, 4vw, 1.15rem);
     }
